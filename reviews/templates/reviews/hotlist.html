@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<div class="container">
+    {% for hot in hotlist %}
+    <div class="card">
+        {% if article.image %}
+            <div class="image">
+                <img src="{{ hotplace.image.url }}" class="card-img-top" alt="#">
+                    <div class="text">
+                        <p>{{ hotplace.title }}</p>
+                    </div>
+            </div>
+        {% else %}
+            <div class="image">
+                <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top">
+                    <div class="text">
+                        <p>{{ hotplace.title }}</p>
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
