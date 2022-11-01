@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
 {% block content %}
-  <form action="" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form forms%}
-    <input type="submit" class="btn btn-outline-primary" value="회원가입">
+
+<div class="create">
+  <h1>회원가입</h1>
+  <form action = "{% url 'accounts:signup' %}"" method = 'POST' enctype="multipart/form-data">
+  {% csrf_token %}
+  {% bootstrap_form forms %}
+  {% bootstrap_button content="가입하기" button_type="submit" button_class="btn-outline-success w-100" %}
   </form>
+</div>
+
 {% endblock content %}

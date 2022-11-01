@@ -1,29 +1,39 @@
-{% extends 'base.html' %} {% load django_bootstrap5 %} {% block content %}
+{% extends "base.html" %} 
+{% load django_bootstrap5 %} 
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
-<div class="d-flex justify-content-center">
-  <!--로그인 상태에서 작동-->
-  {% if user.is_authenticated %}
-  <div>
-    <p>로그아웃 하시겠어요?</p>
-    <a class="btn btn-primary" href="{%  url 'accounts:logout' %}"> 로그아웃</a>
-    {% else %}
-    <!--로그아웃 상태 작동-->
+{% block content %}
 
-    <!--회원인 경우-->
-    <div>
-      <p>회원이신가요?</p>
-      <a class="btn btn-primary" href="{%  url 'accounts:login' %}"> 로그인 </a>
-    </div>
 
-    <!--회원이 아닌 경우-->
-    <br />
-    <p>아직 회원이 아니신가요?</p>
-    <div>
-      <a class="btn btn-primary" href="{%  url 'accounts:signup' %}">
-        이메일로 회원가입
-      </a>
+
+
+
+
+
+
+<div class="d-flex justify-content-center ">
+  <div class="card text-center" style="width: 500px;">
+    <div class="card-body">
+      <p class="card-text">
+        {% if user.is_authenticated %}
+        <div>
+        {% else %}
+          <p class="mt-5">회원이신가요?</p>
+          <a class="btn btn-primary w-100" href="{%  url 'accounts:login' %}">로그인</a>
+        </div>
+        {% endif %}
+      
+          <!--회원이 아닌 경우-->
+          <div>
+            <p class="mt-5">아직 회원이 아니신가요?</p>
+            <div>
+              <a class="btn btn-primary w-100 mb-5" href="{%  url 'accounts:signup' %}">이메일로 회원가입</a>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
-  {% endif %}
 </div>
-{% endblock content %}
+  {% endblock content %}
+</div>

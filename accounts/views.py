@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignupForm
 from django.contrib.auth import login as auth_login
-from django.contrib.auth import login as auth_logout
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseForbidden
@@ -30,22 +30,19 @@ def index(request):
 
 def login(request):
     if request.method == "POST":
-        forms = AuthenticationForm(request, data=request.POST)
-        if forms.is_valid():
-            auth_login(request, forms.get_user())
-            return redirect("accounts:index")
-        else:
-            forms = AuthenticationForm()
-        context = {"forms": forms}
-        return render(request, "accoutns/login.html", context)
-
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            auth_login(request, form.get_user())
+            return redirect(request.GET.get("next") or "reviews:index")
     else:
-        return redirect("accounts:index")
+        form = AuthenticationForm()
+    context = {"forms": form}
+    return render(request, "accounts/login.html", context)
 
 
 def logout(request):
     auth_logout(request)
-    return redirect("index")
+    return redirect("accounts:index")
 
 
 @login_required
