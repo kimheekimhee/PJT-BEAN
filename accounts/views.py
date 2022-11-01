@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignupForm
 from django.contrib.auth import login as auth_login
@@ -5,6 +6,7 @@ from django.contrib.auth import login as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseForbidden
+
 
 
 # Create your views here.
@@ -28,14 +30,15 @@ def index(request):
 
 def login(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            auth_login(request, form.get_user())
+        forms = AuthenticationForm(request, data=request.POST)
+        if forms.is_valid():
+            auth_login(request, forms.get_user())
             return redirect("accounts:index")
         else:
-            form = AuthenticationForm()
-        context = {"form": form}
-        return render(request, "accounts/login.html", context)
+            forms = AuthenticationForm()
+        context = {"forms": forms}
+        return render(request, "accoutns/login.html", context)
+
     else:
         return redirect("accounts:index")
 
@@ -44,6 +47,35 @@ def logout(request):
     auth_logout(request)
     return redirect("index")
 
+
+@login_required
+def update(request):
+    if request.method == "POST":
+        forms = CustomUserChangeForm(request.POST, instance=request.user)
+        if forms.is_valid():
+            forms.save()
+            return redirect("accounts:detail", request.user.pk)
+    else:
+        forms = CustomUserChangeForm(instance=request.user)
+    context = {
+        "forms": forms,
+    }
+    return render(request, "accounts/update.html", context)
+
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        forms = PasswordChangeForm(request.user, request.POST)
+        if forms.is_valid():
+            forms.save()
+            return redirect("accounts:index")
+    else:
+        forms = PasswordChangeForm(request.user)
+    context = {
+        "forms": forms,
+    }
+    return render(request, "accounts/change_password.html", context)
 
 def detail(request, user_pk):
     person = get_user_model()
@@ -64,3 +96,4 @@ def follow(request, user_pk):
         return redirect("accounts:detail", user_pk)
     else:
         return HttpResponseForbidden()
+
