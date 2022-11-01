@@ -31,10 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "imagekit",
     "reviews",
     "accounts",
     "django_bootstrap5",
-    "imagekit",
     "django_extensions",
     "django.contrib.admin",
     "django.contrib.auth",

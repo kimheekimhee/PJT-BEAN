@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<div class="container">    
+    <h3 class="text-center">인기 여행지</h3>
+    <div class="d-flex justify-content-center">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item mx-5" role="presentation">
+                <button class="nav-link active" id="pills-domestic-tab" data-bs-toggle="pill" data-bs-target="#pills-domestic" type="button" role="tab" aria-controls="pills-domestic" aria-selected="true">국내</button>
+            </li>
+            <li class="nav-item mx-5" role="presentation">
+                <button class="nav-link" id="pills-overseas-tab" data-bs-toggle="pill" data-bs-target="#pills-overseas" type="button" role="tab" aria-controls="pills-overseas" aria-selected="false">해외</button>
+            </li>
+        </ul>
+    </div>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-domestic" role="tabpanel" aria-labelledby="pills-domestic-tab" tabindex="0">
+                <div class="row row-cols-4 g-3">
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-overseas" role="tabpanel" aria-labelledby="pills-overseas-tab" tabindex="0">
+                <div class="row row-cols-4 g-3">
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">하와이</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">하와이</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">하와이</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">하와이</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">하와이</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">하와이</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">하와이</span>
+                    </div>
+                    <div class="col my-3" style="position:relative">
+                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">하와이</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-5">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item mx-5" role="presentation">
+                    <button class="nav-link active" id="pills-domestic-tab" data-bs-toggle="pill" data-bs-target="#pills-domestic" type="button" role="tab" aria-controls="pills-domestic" aria-selected="true">테마 별</button>
+                </li>
+            </ul>
+        </div>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-domestic" role="tabpanel" aria-labelledby="pills-domestic-tab" tabindex="0">
+                    <div class="row row-cols-4 g-3">
+                        <div class="col my-3">
+                            <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        </div>
+                        <div class="col my-3">
+                            <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        </div>
+                        <div class="col my-3">
+                            <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        </div>
+                        <div class="col my-3">
+                            <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        </div>
+                        <div class="col my-3">
+                            <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        </div>
+                        <div class="col my-3">
+                            <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        </div>
+                        <div class="col my-3">
+                            <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        </div>
+                        <div class="col my-3">
+                            <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
