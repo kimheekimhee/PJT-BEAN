@@ -10,10 +10,10 @@ class Location(models.Model):
 class HotPlace(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     hotplace = models.CharField(max_length=100)
-    addr = models.CharField()
-    x = models.CharField()
-    y = models.CharField()
-    theme = models.CharField()
+    addr = models.CharField(max_length=80)
+    x = models.CharField(max_length=80)
+    y = models.CharField(max_length=80)
+    theme = models.CharField(max_length=80)
     country = models.CharField(max_length=50)
     content = models.TextField()
 
@@ -31,8 +31,8 @@ class ImageHotPlace(models.Model):
 class Reviews(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     hotplace = models.ForeignKey(HotPlace, on_delete=models.CASCADE)
-    title = models.CharField()
-    content = models.CharField()
+    title = models.CharField(max_length=80)
+    content = models.TextField()
     grade = models.IntegerField(
         validators=[MinValueValidator(1),MaxValueValidator(5)]
     )
