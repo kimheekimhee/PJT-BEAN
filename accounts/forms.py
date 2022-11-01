@@ -6,4 +6,4 @@ class SignupForm(UserCreationForm):
   
   class Meta:
     model = get_user_model()
-    fields = ("username",)
+    fields = ("username", "image",)

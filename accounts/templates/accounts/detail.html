@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-4 p-3">
+        {% if person.image %}
+          <img src="{{ person.image.url }}" alt="">
+        {% else %}
+          <img src="https://dummyimage.com/400/ccb3cc/fff" alt="프사 대체">
+        {% endif %}
+      </div>
+      <div class="col p-3">
+        <div class="d-flex">
+          <h2 class="fw-bold">{{ person }}
+            <span class="fs-5 ms-3 fw-light">팔로잉 :
+              {{ person.followings.count }}
+              |
+            </span><span class="fs-5 fw-light">팔로워 :
+              {{ person.followers.count }}</span></h2>
+          {% if request.user.is_authenticated %}
+            <p class="ms-5">
+              <form action="{% url 'accounts:follow' person.pk %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="팔로우" class="btn btn-outline-primary">
+              </form>
+            </p>
+          {% endif %}
+        </div>
+        <p>이메일 :
+          {{ person.email }}</p>
+        <p>가입일 :
+          {{ person.date_joined }}</p>
+        <p>마지막 로그인 :
+          {{ person.last_login }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 회원정보 -->
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+      <div class="card">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">회원정보</h5>
+          <p class="card-text">회원정보</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">작성한 리뷰</h5>
+          <p class="card-text">작성한 리뷰</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">방명록</h5>
+          <p class="card-text">방명록</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
