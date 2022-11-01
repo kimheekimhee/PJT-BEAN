@@ -1,4 +1,30 @@
-{% extends 'base.html' %}
-{% load django_bootstrap5 %}
+{% extends 'base.html' %} 
+{% load django_bootstrap5 %} 
 {% block content %}
+
+
+{% if user.is_authenticated %}
+<!--로그인 상태에서 작동-->
+<div>
+<p>로그아웃 하시겠어요?</p>
+<a class = "btn btn-primary" href="{%  url 'accounts:logout' %}"> 로그아웃</a>
+  
+{% else %}
+<!--로그아웃 상태 작동-->
+<!--회원인 경우-->
+<div>
+  <p> 회원이신가요? </p>
+  <a class = "btn btn-primary" href="{%  url 'accounts:login' %}"> 로그인 </a>
+</div>
+
+<!--회원이 아닌 경우-->
+
+<p> 아직 회원이 아니신가요?</p>
+<div>
+  <a class = "btn btn-primary" href="{%  url 'accounts:signup' %}"> 이메일로 회원가입 </a>
+  <a class = "btn btn-primary" href="{%  url 'accounts:index' %}"> 비회원으로 하기 </a>
+</div>
+</div>
+{% endif %}
+</div>
 {% endblock content %}
