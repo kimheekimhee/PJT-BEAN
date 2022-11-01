@@ -1,9 +1,12 @@
-from django.shortcuts import render, redirect
-from .forms import CustomUserChangeForm, SignupForm
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import SignupForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import login as auth_logout
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import get_user_model
+from django.http import HttpResponseForbidden
+
 
 
 # Create your views here.
@@ -35,6 +38,7 @@ def login(request):
             forms = AuthenticationForm()
         context = {"forms": forms}
         return render(request, "accoutns/login.html", context)
+
     else:
         return redirect("accounts:index")
 
@@ -72,3 +76,24 @@ def change_password(request):
         "forms": forms,
     }
     return render(request, "accounts/change_password.html", context)
+
+def detail(request, user_pk):
+    person = get_user_model()
+    person = get_object_or_404(person, pk=user_pk)
+    context = {
+        "person" : person,
+    }
+    return render(request, "accounts/detail.html", context)
+
+
+def follow(request, user_pk):
+    person = get_user_model().objects.get(pk=user_pk)
+    if person != request.user:
+        if person.followers.filter(pk=request.user.pk).exists():
+            person.followers.remove(request.user)
+        else:
+            person.followers.add(request.user)
+        return redirect("accounts:detail", user_pk)
+    else:
+        return HttpResponseForbidden()
+

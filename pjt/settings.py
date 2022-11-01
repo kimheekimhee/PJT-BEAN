@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "reviews",
     "accounts",
     "django_bootstrap5",
+    "imagekit",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -122,9 +123,14 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
+MEDIA_ROOT = BASE_DIR / 'images'
+MEDIA_URL = '/image/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.User"
+
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
