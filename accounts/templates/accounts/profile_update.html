@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <form action="" method="POST">
+    <p> 프로필 수정 </p>
+    <form action="" method="POST" enctype="multipart/form-data">
+
+    {% csrf_token %}
+    {% bootstrap_form profile_form %}
+  </form>
+  <button type="submit">수정하기</button>
+  <!-- <a href="{% url 'accounts: delete' %}" class="btn btn-secondary">회원탈퇴</a> -->
+  <!-- <a href="{% url 'accounts:' %}" class="btn btn-secondary">돌아가기</a> -->
+
+  </form>
+{% endblock content %}
