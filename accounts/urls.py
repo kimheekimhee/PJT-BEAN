@@ -8,8 +8,8 @@ urlpatterns = [
     path("signup/", views.signup, name="signup"),
     path("login/", views.login, name="login"),
     path("logout/", views.logout, name="logout"),
-
     path("update/", views.update, name="update"),
-    path("change_password/", views.change_password, name="change_password"),
+    path("<int:pk>/change_password/", views.change_password, name="change_password"),
     path("<int:user_pk>/", views.detail, name="detail"),
+    path("accounts/delete/", views.delete, name="delete"),
 ]
