@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+{% if request.resolver_match.url_name == 'create' %}
+<p>핫플 추가</p>
+{% else %}
+<p>수정</p>
+{% endif %}
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form article_form %}
+    {% bootstrap_button button_type="submit" content="OK" %}
+</form>
+{% endblock %}
