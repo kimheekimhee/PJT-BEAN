@@ -1,12 +1,12 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignupForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import login as auth_logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseForbidden
-
+from .forms import CustomUserChangeForm
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -77,11 +77,12 @@ def change_password(request):
     }
     return render(request, "accounts/change_password.html", context)
 
+
 def detail(request, user_pk):
     person = get_user_model()
     person = get_object_or_404(person, pk=user_pk)
     context = {
-        "person" : person,
+        "person": person,
     }
     return render(request, "accounts/detail.html", context)
 
@@ -97,3 +98,9 @@ def follow(request, user_pk):
     else:
         return HttpResponseForbidden()
 
+
+@login_required
+def delete(request):
+    request.user.delete()
+    auth_logout(request)
+    return redirect("accounts:login")
