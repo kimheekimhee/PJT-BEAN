@@ -5,7 +5,7 @@ from .models import Reviews, HotPlace
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Reviews
-        fields = ['title', 'content', 'image', 'grade', ]
+        fields = ['title', 'content', 'grade', ]
 
 class HotPlaceForm(forms.ModelForm):
     class Meta:
