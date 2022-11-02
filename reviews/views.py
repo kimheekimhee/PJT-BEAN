@@ -1,10 +1,27 @@
 from django.shortcuts import redirect, get_object_or_404, render
-from .models import Location, HotPlace, ImageHotPlace, Reviews, ImageReviews
+from .models import Location, HotPlace, ImageHotPlace, Reviews, ImageReviews, Location
 from .forms import ReviewForm, HotPlaceForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 # Create your views here.
+
+def hotcreate(request, pk):
+    if request.method == 'POST':
+        form = HotPlaceForm(request.POST, request.FILES)
+        location = get_object_or_404(Location, pk=pk)
+        print(request.POST)
+        if form.is_valid():
+            temp = form.save(commit=False)
+            temp.location = location
+            temp.save()
+            return redirect('reviews:hotlist', pk)
+    else:
+        form = HotPlaceForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'reviews/hotcreate.html', context)
 
 def main(request):
     locations = Location.objects.all()
@@ -13,14 +30,14 @@ def main(request):
     }
     return render(request, 'reviews/index.html', context)
 
-def hotlist(request):
-    hotplace = HotPlace.objects.all()
+def hotlist(request, pk):
+    hotplace = HotPlace.objects.filter(location_id=pk)
     image = ImageHotPlace.objects.all()
     context = {
         'hotplace' : hotplace,
         'image' : image
     }
-    return render(request, 'reivews/hotlist.html', context)
+    return render(request, 'reviews/hotlist.html', context)
 
 def hotdetail(request, pk):
     hotplace = get_object_or_404(HotPlace, pk=pk)
@@ -32,22 +49,6 @@ def hotdetail(request, pk):
         'image' : image,
     }
     return render(request, 'reviews/detail.html', context)
-
-@login_required
-def hotcreate(request):
-    if request.method == 'POST':
-        hotplace_form = HotPlaceForm(request.POST, request.FILES)
-        if hotplace_form.is_valid():
-            hotplace = hotplace_form.save(commit=False)
-            hotplace.user = request.user
-            hotplace.save()
-            messages.success(request, '관광지 추가 완료')
-    else:
-        hotplace_form = HotPlaceForm()
-    context = {
-        'hotplace_form' : hotplace_form
-    }
-    return render(request, 'reviews/hotcreate.html', context)
 
 @login_required
 def reviewcreate(request, pk):
