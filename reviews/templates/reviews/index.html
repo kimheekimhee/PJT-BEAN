@@ -18,38 +18,14 @@
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-domestic" role="tabpanel" aria-labelledby="pills-domestic-tab" tabindex="0">
                 <div class="row row-cols-4 g-3">
+                    {% for location in locations %}
                     <div class="col my-3" style="position:relative">
-                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
-                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
+                        <a href="{% url 'reviews:hotcreate' location.pk %}">
+                            <img src="https://res.klook.com/image/upload/Mobile/City/uvtkchefj78cnu5cfzwy.jpg" alt="" class="img-fluid">
+                            <span style="color:rgb(255, 255, 255); text-shadow: 1px 1px 2px black; font-weight:bold; font-size:100%; position:absolute; left:50%; bottom:0%; transform:translate(-50%, -50%);">{{ location.location }}</span>
+                        </a>
                     </div>
-                    <div class="col my-3" style="position:relative">
-                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
-                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
-                    </div>
-                    <div class="col my-3" style="position:relative">
-                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
-                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
-                    </div>
-                    <div class="col my-3" style="position:relative">
-                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
-                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
-                    </div>
-                    <div class="col my-3" style="position:relative">
-                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
-                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
-                    </div>
-                    <div class="col my-3" style="position:relative">
-                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
-                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
-                    </div>
-                    <div class="col my-3" style="position:relative">
-                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
-                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
-                    </div>
-                    <div class="col my-3" style="position:relative">
-                        <img src="https://dummyimage.com/300x200/000/fff" alt="" class="img-fluid">
-                        <span style="color:white; position:absolute; left:50%; bottom:10%; transform:translate(-50%, -50%);">서울</span>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="tab-pane fade" id="pills-overseas" role="tabpanel" aria-labelledby="pills-overseas-tab" tabindex="0">

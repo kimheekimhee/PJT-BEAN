@@ -7,9 +7,9 @@ from django.http import JsonResponse
 # Create your views here.
 
 def hotcreate(request, pk):
+    location = get_object_or_404(Location, pk=pk)
     if request.method == 'POST':
         form = HotPlaceForm(request.POST, request.FILES)
-        location = get_object_or_404(Location, pk=pk)
         print(request.POST)
         if form.is_valid():
             temp = form.save(commit=False)
@@ -19,7 +19,8 @@ def hotcreate(request, pk):
     else:
         form = HotPlaceForm()
     context = {
-        'form': form
+        'form': form,
+        'location': location
     }
     return render(request, 'reviews/hotcreate.html', context)
 
