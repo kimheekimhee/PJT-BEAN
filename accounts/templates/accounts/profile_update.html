@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load django_bootstrap5 %} {% block content %}
 <form action="" method="POST">
-  <p>프로필 수정</p>
+  <h1>프로필 수정</h1>
   <div class="container">
     <div class="row">
       <div class="col-4 p-3">
@@ -9,20 +9,21 @@
         {% else %}
           <img src="https://dummyimage.com/400/ccb3cc/fff" alt="프사 대체">
         {% endif %}
+
+      <div class="d-flex align-items-center">
+        <img src="{{ profile.image.url }}" alt="" style="width: 100px; height: 100px; border-radius: 50%" />
+        <p class = "fs-3 my-2 ms-5" > {{ user.username }}</p>
+        <form action="" method="POST" enctype="multipart/form-data"></form>
       </div>
     </div>
-  <div>
-      <div class="d-flex align-items-center">
-          <img src="{{ profile.image.url }}" alt="" style="width: 100px; height: 100px; border-radius: 50%" />
-          <p class = "fs-3 my-2 ms-5" > {{ user.username }}</p>
-      </div>
-      <div class="col-12 d-flex justify-content-around ">
-  <form action="" method="POST" enctype="multipart/form-data">
+  </div>
 
-    {% csrf_token %} {% bootstrap_form profile_form %}
+<div>
+  {% csrf_token %} 
+  {% bootstrap_form form %}
+<input type="submit" class="btn btn-outline-dark" value="수정">
   </form>
-  <button type="submit">수정하기</button>
 <a href="{% url 'accounts:delete' %}" class="btn btn-secondary">회원탈퇴</a>
- <a href="{% url 'accounts:detail' %}" class="btn btn-secondary">돌아가기</a>
+ <a href="{% url 'accounts:detail' user.pk %}" class="btn btn-secondary">돌아가기</a>
 </form>
 {% endblock content %}

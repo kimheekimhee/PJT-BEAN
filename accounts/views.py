@@ -104,3 +104,21 @@ def delete(request):
     request.user.delete()
     auth_logout(request)
     return redirect("accounts:login")
+
+
+@login_required
+def profile_update(request):
+    if request.method == "POST":
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("accounts:detail", request.user.pk)
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    return render(
+        request,
+        "accounts/profile_update.html",
+        {
+            "form": form,
+        },
+    )
