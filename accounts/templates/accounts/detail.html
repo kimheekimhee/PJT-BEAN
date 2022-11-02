@@ -23,6 +23,7 @@
               <form action="{% url 'accounts:follow' person.pk %}" method="POST">
                 {% csrf_token %}
                 <input type="submit" value="팔로우" class="btn btn-outline-primary">
+                
               </form>
             </p>
           {% endif %}
