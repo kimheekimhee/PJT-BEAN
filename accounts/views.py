@@ -15,7 +15,6 @@ def signup(request):
         forms = SignupForm(request.POST, request.FILES)
         if forms.is_valid():
             forms.save()
-            auth_login(request, forms.get_user())
             return redirect("reviews:index")
     else:
         forms = SignupForm()
