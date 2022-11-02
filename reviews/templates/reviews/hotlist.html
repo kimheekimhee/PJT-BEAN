@@ -2,27 +2,19 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-
-<div class="container">
-    {% for hot in hotlist %}
-    <div class="card">
-        {% if article.image %}
-            <div class="image">
-                <img src="{{ hotplace.image.url }}" class="card-img-top" alt="#">
-                    <div class="text">
-                        <p>{{ hotplace.title }}</p>
-                    </div>
+<div class="container position-relative">
+    <a href="{% url 'reviews:hotcreate' location.pk %}" class="btn btn-primary position-fixed" style="right:10%; bottom:20%">명소 추가하기</a>
+    {% for hotplace in hotplaces %}
+        <div class="row w-75 card mt-3 d-flex" style="margin:auto" >
+            <img src="https://dummyimage.com/300x200/000/fff" alt="" style="width:30%;">
+            <div>
+                <a href="{% url 'reviews:hotdetail' hotplace.pk %}"><h3 class="card-title mt-3">{{ hotplace.hotplace }}</h3></a>
+                <p class="card-body">{{ hotplace.theme }}</p>
             </div>
-        {% else %}
-            <div class="image">
-                <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top">
-                    <div class="text">
-                        <p>{{ hotplace.title }}</p>
-                    </div>
-            </div>
-        {% endif %}
+        </div>
     {% endfor %}
-    </div>
 </div>
+
+
 
 {% endblock %}

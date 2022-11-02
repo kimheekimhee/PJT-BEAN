@@ -32,22 +32,24 @@ def main(request):
     return render(request, 'reviews/index.html', context)
 
 def hotlist(request, pk):
-    hotplace = HotPlace.objects.filter(location_id=pk)
-    image = ImageHotPlace.objects.all()
+    location = get_object_or_404(Location, pk=pk)
+    hotplaces = HotPlace.objects.filter(location_id=pk)
+    images = ImageHotPlace.objects.all()
     context = {
-        'hotplace' : hotplace,
-        'image' : image
+        'location': location,
+        'hotplaces' : hotplaces,
+        'images' : images
     }
     return render(request, 'reviews/hotlist.html', context)
 
 def hotdetail(request, pk):
     hotplace = get_object_or_404(HotPlace, pk=pk)
-    review = Reviews.objects.filter(hotplace=hotplace)
-    image = ImageHotPlace.objects.filter(hotplace=hotplace)
+    reviews = Reviews.objects.filter(hotplace=hotplace)
+    images = ImageHotPlace.objects.filter(hotplace=hotplace)
     context = {
         'hotplace' : hotplace,
-        'review' : review,
-        'image' : image,
+        'reviews' : reviews,
+        'images' : images,
     }
     return render(request, 'reviews/detail.html', context)
 
