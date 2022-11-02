@@ -2,16 +2,58 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
+<div id="carouselExampleControls" class="carousel slide w-75 my-3 mx-auto" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://a.cdn-hotels.com/gdcs/production117/d150/1049d859-3926-4a0d-8ae2-d7e227f902c2.jpg?impolicy=fcrop&w=1600&h=1066&q=medium" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://a.cdn-hotels.com/gdcs/production10/d571/3c9d0761-76f3-426a-a5a2-1c1497d3aaa5.jpg?impolicy=fcrop&w=1600&h=1066&q=medium" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://a.cdn-hotels.com/gdcs/production94/d1224/9d7e0a97-7cd0-4f58-8676-e8f6c1a0d00a.jpg?impolicy=fcrop&w=1600&h=1066&q=medium" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+
 <div class="container position-relative">
-    <a href="{% url 'reviews:hotcreate' location.pk %}" class="btn btn-primary position-fixed" style="right:10%; bottom:20%">명소 추가하기</a>
+    <a href="{% url 'reviews:hotcreate' location.pk %}" class="btn btn-primary position-fixed" style="right:10%; bottom:20%; font-size:larger;">명소 추가하기</a>
+
+<div class="row justify-content-center">
+    <div class="col-2">
+        <select class="form-select">
+            <option selected>Test</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+    </div>
+    <div class="col-6">
+    <form class="d-flex" action="" method="POST">
+            <input class="form-control mx-3" type="text" placeholder="검색어를 입력하세요">
+            <button class="btn btn-primary mx-3" type="submit">submit</button>
+        </form>
+    </div>
+</div>
     {% for hotplace in hotplaces %}
-        <div class="row w-75 card mt-3 d-flex" style="margin:auto" >
-            <img src="https://dummyimage.com/300x200/000/fff" alt="" style="width:30%;">
-            <div>
-                <a href="{% url 'reviews:hotdetail' hotplace.pk %}"><h3 class="card-title mt-3">{{ hotplace.hotplace }}</h3></a>
-                <p class="card-body">{{ hotplace.theme }}</p>
-            </div>
+    <a class="row my-3 border rounded w-75 m-auto" href="{% url 'reviews:hotdetail' hotplace.pk %}" style="text-decoration:none; color:black;">
+        <div class="col-4 p-0">
+            <img class="w-100 rounded-start" src="https://dummyimage.com/300x200/000/fff" alt="">
         </div>
+        <div class="col-8">
+            <h3 class="card-title mt-3">{{ hotplace.hotplace }}</h3>
+            <p >{{ hotplace.theme }}</p>
+        </div>
+    </a>
     {% endfor %}
 </div>
 

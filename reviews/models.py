@@ -6,6 +6,18 @@ from imagekit.processors import ResizeToFill
 
 class Location(models.Model):
     location = models.CharField(max_length=80)
+
+class ImageLocation(models.Model):
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    image = ProcessedImageField(upload_to='images/', blank=True,
+                                processors=[ResizeToFill(1200, 960)],
+                                format='JPEG',
+                                options={'quality': 80})
+    image_thumbnail = ImageSpecField(source='image',
+                                processors=[ResizeToFill(300, 300)],
+                                format='JPEG',
+                                options={'quality': 80})
+    
     
 class HotPlace(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
