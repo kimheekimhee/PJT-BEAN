@@ -85,6 +85,7 @@ def detail(request, user_pk):
     }
     return render(request, "accounts/detail.html", context)
 
+
 @login_required
 def follow(request, user_pk):
     person = get_user_model().objects.get(pk=user_pk)
