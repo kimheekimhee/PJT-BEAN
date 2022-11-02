@@ -20,7 +20,7 @@ def hotlist(request):
         'hotplace' : hotplace,
         'image' : image
     }
-    return render(request, 'reivews/hotlist.html', context)
+    return render(request, 'reviews/hotlist.html', context)
 
 def hotdetail(request, pk):
     hotplace = get_object_or_404(HotPlace, pk=pk)
