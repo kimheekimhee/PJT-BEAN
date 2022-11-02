@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:pk>/hotcreate', views.hotcreate, name='hotcreate'),
     path('<int:pk>/reviewcreate', views.reviewcreate, name='reviewcreate'),
     path('<int:pk>/delete', views.delete, name='delete'),
+    path('<int:pk>/reviewcreate', views.reviewcreate, name='reviewcreate'),
 ]
