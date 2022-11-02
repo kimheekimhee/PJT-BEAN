@@ -15,6 +15,7 @@ def signup(request):
         forms = SignupForm(request.POST, request.FILES)
         if forms.is_valid():
             forms.save()
+            auth_login(request, forms.get_user())
             return redirect("reviews:index")
     else:
         forms = SignupForm()
@@ -25,6 +26,7 @@ def signup(request):
 
 
 def index(request):
+    members = get_user_model().objects.all()
     return render(request, "accounts/index.html")
 
 
@@ -83,7 +85,7 @@ def detail(request, user_pk):
     }
     return render(request, "accounts/detail.html", context)
 
-
+@login_required
 def follow(request, user_pk):
     person = get_user_model().objects.get(pk=user_pk)
     if person != request.user:
