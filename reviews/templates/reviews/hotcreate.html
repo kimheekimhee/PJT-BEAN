@@ -2,37 +2,48 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-
-
 <div name="box" class="container my-5" style="width:700px">
     <h1></h1>
-    <div id="map" style="width:100%;height:400px;"></div>
     
     <form name="mapform" action="" method="POST" ,="" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="mb-3"><label class="form-label" for="id_hotplace">Hotplace</label><input type="text" name="hotplace" maxlength="100" class="form-control" placeholder="Hotplace" required="" id="id_hotplace"></div>
-        <label for="id_addr" class="form-label">Address</label>
+        <div class="mb-3"><label class="form-label" for="id_hotplace">명소 이름</label><input type="text" name="hotplace" maxlength="100" class="form-control" placeholder="명소 이름" required="" id="id_hotplace"></div>
+        <div id="map" style="width:100%;height:400px;"></div>
+        <label for="id_addr" class="form-label">주소</label>
         <div class="input-group mb-3">
-            <input name="addr" maxlength="80" type="text" class="form-control" placeholder="Address" id="id_addr" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <input name="addr" maxlength="80" type="text" class="form-control" placeholder="주소" id="id_addr" aria-label="Recipient's username" aria-describedby="button-addon2">
             <button onclick="transform()" class="btn btn-primary" type="button" id="button-addon2">주소 확인</button>
           </div>
-        <div class="mb-3"><label class="form-label" for="id_theme">Theme</label><input type="text" name="theme" maxlength="80" class="form-control" placeholder="Theme" required="" id="id_theme"></div>
-        <div class="mb-3"><label class="form-label" for="id_country">Country</label><input type="text" name="country" maxlength="50" class="form-control" placeholder="Country" required="" id="id_country"></div>
-        <div class="mb-3"><label class="form-label" for="id_content">Content</label><textarea name="content" cols="40" rows="10" class="form-control" placeholder="Content" required="" id="id_content"></textarea></div>
+        <div class="mb-3"><label class="form-label" for="id_theme">테마</label><input type="text" name="theme" maxlength="80" class="form-control" placeholder="테마" required="" id="id_theme"></div>
+        <div class="mb-3"><label class="form-label" for="id_country">국가</label>
+            <select name="country" class="form-select" aria-label="Default select example">
+                <option selected>국내</option>
+                <option>해외</option>
+              </select>
+        </div>
+        <div class="mb-3"><label class="form-label" for="id_content">명소 설명</label><textarea name="content" cols="40" rows="10" class="form-control" placeholder="명소 설명" required="" id="id_content"></textarea></div>
         <input name="x" type="hidden" value="">
         <input name="y" type="hidden" value="">
         <button class="btn btn-primary" type="submit">submit</button>
     </form>
-</div>
-    
+</div>   
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a296fe5c49ee5c07b18af90b459b38bb&libraries=services"></script>
 <script>
 var mapContainer = document.getElementById('map'),
     mapOption = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        center: new kakao.maps.LatLng('',''),
         level: 3
     };  
+
 var map = new kakao.maps.Map(mapContainer, mapOption); 
+var geocoder = new kakao.maps.services.Geocoder();
+
+geocoder.addressSearch(`{{ location.location }}`, function(result, status) {
+     if (status === kakao.maps.services.Status.OK) {
+        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        map.setCenter(coords);
+    } 
+});  
 function transform() {
     var geocoder = new kakao.maps.services.Geocoder();
     var address = document.mapform.addr.value
@@ -55,6 +66,8 @@ function transform() {
         infowindow.open(map, marker);
         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
         map.setCenter(coords);
+    } else {
+        alert('정확한 주소를 입력해 주세요. \n( 지번 또는 도로명주소 포맷을 지원합니다. )')
     } 
 });    
 }

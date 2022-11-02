@@ -1,6 +1,6 @@
 from django import forms
 from django import forms
-from .models import Reviews, HotPlace
+from .models import Reviews, HotPlace, Location
 
 class ReviewForm(forms.ModelForm):
     class Meta:
@@ -10,4 +10,4 @@ class ReviewForm(forms.ModelForm):
 class HotPlaceForm(forms.ModelForm):
     class Meta:
         model = HotPlace
-        fields = ['hotplace', 'addr', 'theme', 'country', 'content', ]
+        fields = ['hotplace', 'addr', 'theme', 'country', 'content', 'x', 'y' ]
