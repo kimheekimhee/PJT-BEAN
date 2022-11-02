@@ -11,7 +11,7 @@
         <div id="map" style="width:100%;height:400px;"></div>
         <label for="id_addr" class="form-label">주소</label>
         <div class="input-group mb-3">
-            <input name="addr" maxlength="80" type="text" class="form-control" placeholder="주소" id="id_addr" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <input name="addr" maxlength="80" type="text" class="form-control" placeholder="직접 입력하거나 지도를 클릭해 마커를 표시하세요." id="id_addr" aria-label="Recipient's username" aria-describedby="button-addon2">
             <button onclick="transform()" class="btn btn-primary" type="button" id="button-addon2">주소 확인</button>
           </div>
         <div class="mb-3"><label class="form-label" for="id_theme">테마</label><input type="text" name="theme" maxlength="80" class="form-control" placeholder="테마" required="" id="id_theme"></div>
@@ -22,6 +22,7 @@
               </select>
         </div>
         <div class="mb-3"><label class="form-label" for="id_content">명소 설명</label><textarea name="content" cols="40" rows="10" class="form-control" placeholder="명소 설명" required="" id="id_content"></textarea></div>
+        {% bootstrap_form image_form %}
         <input name="x" type="hidden" value="">
         <input name="y" type="hidden" value="">
         <button class="btn btn-primary" type="submit">submit</button>
@@ -47,10 +48,34 @@ geocoder.addressSearch(`{{ location.location }}`, function(result, status) {
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
 var marker = new kakao.maps.Marker({ 
-    position: map.getCenter() 
+    position: map.getCenter()
 }); 
+
 marker.setMap(map);
-kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+function searchAddrFromCoords(coords, callback) {
+    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
+}
+
+function searchDetailAddrFromCoords(coords, callback) {
+    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+}
+searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+            
+            var content = '<div class="bAddr">' +
+                            '<span class="title">법정동 주소정보</span>' + 
+                            detailAddr + 
+                        '</div>';
+            marker.setPosition(mouseEvent.latLng);
+            marker.setMap(map);
+            document.mapform.addr.value=result[0].road_address.address_name
+
+        }   
+    });
+     
     var latlng = mouseEvent.latLng; 
     
     // 마커 위치를 클릭한 위치로 옮깁니다
