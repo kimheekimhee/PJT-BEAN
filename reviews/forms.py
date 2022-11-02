@@ -1,6 +1,7 @@
 from django import forms
 from django import forms
 from .models import Reviews, HotPlace, Location, ImageHotPlace, ImageReviews
+from django.forms import ClearableFileInput
 
 class ReviewForm(forms.ModelForm):
     class Meta:
@@ -15,7 +16,10 @@ class HotPlaceForm(forms.ModelForm):
 class HotPlaceImageForm(forms.ModelForm):
     class Meta:
         model = ImageHotPlace
-        fields = ['hotplace', 'image', ]
+        fields = ['image', ]
+        widgets = {
+            "image": ClearableFileInput(attrs={"multiple": True}),
+        }
 
 class ReivewImageForm(forms.ModelForm):
     class Meta:

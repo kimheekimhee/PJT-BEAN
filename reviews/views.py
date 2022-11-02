@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, get_object_or_404, render
 from .models import Location, HotPlace, ImageHotPlace, Reviews, ImageReviews, Location
-from .forms import ReviewForm, HotPlaceForm
+from .forms import ReviewForm, HotPlaceForm, HotPlaceImageForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -9,16 +9,25 @@ from django.http import JsonResponse
 def hotcreate(request, pk):
     location = get_object_or_404(Location, pk=pk)
     if request.method == 'POST':
+        image_form = HotPlaceImageForm(request.POST, request.FILES)
         form = HotPlaceForm(request.POST, request.FILES)
-        print(request.POST)
-        if form.is_valid():
-            temp = form.save(commit=False)
-            temp.location = location
-            temp.save()
+        images = request.FILES.getlist("image")
+        if form.is_valid() and image_form.is_valid():
+            hotplace = form.save(commit=False)
+            hotplace.location = location
+            if len(images):
+                for image in images:
+                    image_instance = ImageHotPlace(hotplace=hotplace, image=image)
+                    hotplace.save()
+                    image_instance.save()
+            else:
+                hotplace.save()
             return redirect('reviews:hotlist', pk)
     else:
         form = HotPlaceForm()
+        image_form = HotPlaceImageForm()
     context = {
+        'image_form': image_form,
         'form': form,
         'location': location
     }
