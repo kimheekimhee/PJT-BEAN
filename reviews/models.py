@@ -8,7 +8,7 @@ class Location(models.Model):
     location = models.CharField(max_length=80)
 
 class ImageLocation(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='image')
     image = ProcessedImageField(upload_to='images/', blank=True,
                                 processors=[ResizeToFill(1200, 960)],
                                 format='JPEG',
@@ -30,7 +30,7 @@ class HotPlace(models.Model):
     content = models.TextField()
 
 class ImageHotPlace(models.Model):
-    hotplace = models.ForeignKey(HotPlace, on_delete=models.CASCADE)
+    hotplace = models.ForeignKey(HotPlace, on_delete=models.CASCADE, related_name='image')
     image = ProcessedImageField(upload_to='images/', blank=True,
                                 processors=[ResizeToFill(1200, 960)],
                                 format='JPEG',
@@ -52,7 +52,7 @@ class Reviews(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class ImageReviews(models.Model):
-    reviews = models.ForeignKey(Reviews, on_delete=models.CASCADE)
+    reviews = models.ForeignKey(Reviews, on_delete=models.CASCADE, related_name='image')
     image = ProcessedImageField(upload_to='images/', blank=True,
                                 processors=[ResizeToFill(1200, 960)],
                                 format='JPEG',

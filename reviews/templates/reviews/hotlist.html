@@ -4,15 +4,17 @@
 {% block content %}
 <div id="carouselExampleControls" class="carousel slide w-75 my-3 mx-auto" data-bs-ride="carousel">
     <div class="carousel-inner">
+      {% for img in location.image.all %}
+      {% if forloop.first %}
       <div class="carousel-item active">
-        <img src="https://a.cdn-hotels.com/gdcs/production117/d150/1049d859-3926-4a0d-8ae2-d7e227f902c2.jpg?impolicy=fcrop&w=1600&h=1066&q=medium" class="d-block w-100" alt="...">
+        <img src="{{ img.image.url }}" class="d-block w-100" alt="...">
       </div>
+      {% else %}
       <div class="carousel-item">
-        <img src="https://a.cdn-hotels.com/gdcs/production10/d571/3c9d0761-76f3-426a-a5a2-1c1497d3aaa5.jpg?impolicy=fcrop&w=1600&h=1066&q=medium" class="d-block w-100" alt="...">
+        <img src="{{ img.image.url }}" class="d-block w-100" alt="...">
       </div>
-      <div class="carousel-item">
-        <img src="https://a.cdn-hotels.com/gdcs/production94/d1224/9d7e0a97-7cd0-4f58-8676-e8f6c1a0d00a.jpg?impolicy=fcrop&w=1600&h=1066&q=medium" class="d-block w-100" alt="...">
-      </div>
+      {% endif %}
+      {% endfor %}
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 # Create your views here.
 
+@login_required
 def hotcreate(request, pk):
     location = get_object_or_404(Location, pk=pk)
     if request.method == 'POST':
@@ -35,6 +36,7 @@ def hotcreate(request, pk):
 
 def main(request):
     locations = Location.objects.all()
+    
     context = {
         'locations' : locations
     }
@@ -43,11 +45,9 @@ def main(request):
 def hotlist(request, pk):
     location = get_object_or_404(Location, pk=pk)
     hotplaces = HotPlace.objects.filter(location_id=pk)
-    images = ImageHotPlace.objects.all()
     context = {
         'location': location,
         'hotplaces' : hotplaces,
-        'images' : images
     }
     return render(request, 'reviews/hotlist.html', context)
 

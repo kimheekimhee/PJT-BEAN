@@ -21,7 +21,11 @@
                     {% for location in locations %}
                     <div class="col my-3" style="position:relative">
                         <a href="{% url 'reviews:hotlist' location.pk %}">
-                            <img src="https://res.klook.com/image/upload/Mobile/City/uvtkchefj78cnu5cfzwy.jpg" alt="" class="img-fluid">
+                            {% for img in location.image.all %}
+                                {% if forloop.first %}
+                                 <img src="{{ img.image.url }}" alt="" class="img-fluid">
+                                {% endif %}
+                            {% endfor %}
                             <span style="color:rgb(255, 255, 255); text-shadow: 1px 1px 2px black; font-weight:bold; font-size:100%; position:absolute; left:50%; bottom:0%; transform:translate(-50%, -50%);">{{ location.location }}</span>
                         </a>
                     </div>
