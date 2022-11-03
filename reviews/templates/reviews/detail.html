@@ -4,26 +4,88 @@
 {% bootstrap_css %}
 {% bootstrap_javascript%}
 <div class="container d-flex justify-content-between">
-    <div>
-        <img style="width:90%" src="https://dummyimage.com/600x300/000/fff" alt="">
+    <div class="m-3" style="width:700px">
+        {% for img in images %}
+            {% if forloop.first %}
+            <img class="img-fluid" src="{{ img.image.url }}" alt="">
+            {% endif%}
+        {% endfor %}
     </div>
-    <div>
-        <div class="card" style="width:90%;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
+    <div class="card m-3" style="width:50%;">
+        <div class="card-body">
+            <h3 class="card-title">{{ hotplace.hotplace }}</h3>
+            <h6 class="card-subtitle mb-2 text-muted">{{ hotplace.country }} | {{ hotplace.location.location }} | {{ hotplace.theme }}</h6>
+            <p class="card-text">{{ hotplace.content }}</p>
+            <a href="https://map.naver.com/v5/search/{{ hotplace.addr }}" class="card-link">길찾기: {{ hotplace.addr }}</a>
+            <a href="#" class="card-link">Another link</a>
         </div>
     </div>
 </div>
 
-<div class="container row row-cols-1">
-    {% for review in reviews %}
-    <div class="row">
-    </div>
-    {% endfor %}
+<div class="d-flex justify-content-center">
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item mx-3" role="presentation">
+            <button class="nav-link active" id="pills-domestic-tab" data-bs-toggle="pill" data-bs-target="#pills-domestic" type="button" role="tab" aria-controls="pills-domestic" aria-selected="true">위치</button>
+        </li>
+        <li class="nav-item mx-3" role="presentation">
+            <button class="nav-link" id="pills-overseas-tab" data-bs-toggle="pill" data-bs-target="#pills-overseas" type="button" role="tab" aria-controls="pills-overseas" aria-selected="false">후기</button>
+        </li>
+    </ul>
 </div>
+
+
+
+
+
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-domestic" role="tabpanel" aria-labelledby="pills-domestic-tab" tabindex="0">
+        <div class="d-flex justify-content-center container">
+        <div class="m-3" id="staticMap" style="width:100%;height:600px;"></div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-overseas" role="tabpanel" aria-labelledby="pills-overseas-tab" tabindex="0">
+        <div class="d-flex justify-content-center">
+        <div class="container row row-cols-1">
+            <div class="row py-5 px-3" style="">
+                {% for review in reviews %}
+                    <div class="card">
+                        <img src="{{ review.image.url }}" class="card-img-top" alt="...">
+            
+                            <h5 class="card-title">
+                            {{review.title}}
+                            </h5>
+            
+                            <h6>
+                            {{review.content}}
+                            </h6>
+            
+                            {{review.grade}}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a296fe5c49ee5c07b18af90b459b38bb"></script>
+<script>
+var markerPosition  = new kakao.maps.LatLng(`{{ hotplace.y }}`, `{{ hotplace.x }}`); 
+
+var marker = {
+    position: markerPosition
+};
+
+var staticMapContainer  = document.getElementById('staticMap'),
+    staticMapOption = { 
+        center: new kakao.maps.LatLng(`{{ hotplace.y }}`, `{{ hotplace.x }}`),
+        level: 3,
+        marker: marker
+    };    
+
+// 이미지 지도를 생성합니다
+var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
+</script>
 {% endblock content %}
