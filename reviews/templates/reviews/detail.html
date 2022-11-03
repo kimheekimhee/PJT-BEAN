@@ -49,7 +49,11 @@
             <div class="row py-5 px-3" style="">
                 {% for review in reviews %}
                     <div class="card">
-                        <img src="{{ review.image.url }}" class="card-img-top" alt="...">
+                        {% for img in review.image.all %}
+                        {% if forloop.first %}
+                        <img src="{{ img.image.url }}" class="card-img-top" alt="...">
+                        {% endif %}
+                        {% endfor %}
             
                             <h5 class="card-title">
                             {{review.title}}

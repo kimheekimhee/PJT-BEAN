@@ -11,7 +11,7 @@ class ReviewForm(forms.ModelForm):
 class ReviewImageForm(forms.ModelForm):
     class Meta:
         model = ImageReviews
-        fields = ['reviews', 'image', ]
+        fields = ['image', ]
         
 class HotPlaceForm(forms.ModelForm):
     class Meta:
