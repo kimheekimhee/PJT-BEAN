@@ -1,9 +1,20 @@
-#section1 {
-  height: 600px;
-  background-color: beige;
+a {
+  text-decoration-line: none;
+  color: black;
 }
 
-#section2 {
-  height: 600px;
-  background-color: yellow;
+
+.imoji_list {
+  list-style: none;
+}
+
+
+.nav-item {
+  display: flex;
+}
+
+
+.pencil {
+  flex: 2;
+  width: 30%;
 }
