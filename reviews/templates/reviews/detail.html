@@ -16,8 +16,8 @@
             <h3 class="card-title">{{ hotplace.hotplace }}</h3>
             <h6 class="card-subtitle mb-2 text-muted">{{ hotplace.country }} | {{ hotplace.location.location }} | {{ hotplace.theme }}</h6>
             <p class="card-text">{{ hotplace.content }}</p>
-            <a href="https://map.naver.com/v5/search/{{ hotplace.addr }}" class="card-link">길찾기: {{ hotplace.addr }}</a>
-            <a href="#" class="card-link">Another link</a>
+            <a href="https://map.naver.com/v5/search/{{ hotplace.addr }}" class="card-link" target='_blank'>길찾기: {{ hotplace.addr }}</a>
+            <a href="{% url 'reviews:hotupdate' hotplace.pk %}" class="card-link" >정보 수정하기</a>
         </div>
     </div>
 </div>
