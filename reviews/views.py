@@ -62,9 +62,6 @@ def hotcreate(request, pk):
     }
     return render(request, 'reviews/hotcreate.html', context)
 
-
-
-
 @login_required
 def reviewcreate(request, pk):
     hotplace = get_object_or_404(HotPlace, pk=pk)
@@ -95,12 +92,7 @@ def reviewcreate(request, pk):
 
 @login_required
 def reviewupdate(request, pk):
-    review_form = Reviews.object.get(pk=pk)
-    if request.method == 'POST':
-        review_form = 
-    context = {
-        'reviewcreate' = reviewcreate,
-    }
+    
     return render(request, 'reviews/reviewcreate.html', context)
 
 @login_required
