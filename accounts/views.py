@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignupForm
+from .forms import SignupForm,CustomUserChangeForm, ProfileForm, UserForm, User
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseForbidden
-from .forms import CustomUserChangeForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -75,7 +74,6 @@ def change_password(request):
     }
     return render(request, "accounts/change_password.html", context)
 
-
 def detail(request, user_pk):
     person = get_user_model()
     person = get_object_or_404(person, pk=user_pk)
@@ -108,16 +106,14 @@ def delete(request):
 @login_required
 def profile_update(request):
     if request.method == "POST":
-        form = CustomUserChangeForm(request.POST, instance=request.user)
+        form = CustomUserChangeForm(request.POST,request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect("accounts:detail", request.user.pk)
     else:
         form = CustomUserChangeForm(instance=request.user)
-    return render(
-        request,
-        "accounts/profile_update.html",
-        {
+    return render(request, "accounts/profile_update.html",
+{
             "form": form,
         },
     )
