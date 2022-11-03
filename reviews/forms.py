@@ -8,6 +8,11 @@ class ReviewForm(forms.ModelForm):
         model = Reviews
         fields = ['title', 'content', 'grade', ]
 
+class ReviewImageForm(forms.ModelForm):
+    class Meta:
+        model = ImageReviews
+        fields = ['reviews', 'image', ]
+        
 class HotPlaceForm(forms.ModelForm):
     class Meta:
         model = HotPlace
@@ -20,8 +25,3 @@ class HotPlaceImageForm(forms.ModelForm):
         widgets = {
             "image": ClearableFileInput(attrs={"multiple": True}),
         }
-
-class ReivewImageForm(forms.ModelForm):
-    class Meta:
-        model = ImageReviews
-        fields = ['reviews', 'image', ]
