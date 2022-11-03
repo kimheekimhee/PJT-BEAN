@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 
-{% block body %}
+{% block content %}
 
 {% if request.resolver_match.url_name == 'reviewcreate' %}
 <h1> 리뷰쓰기 </h1>
@@ -12,6 +12,7 @@
 <form action="" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
   {% bootstrap_form review_form %}
+  {% bootstrap_form image_form %}
   {% bootstrap_button button_type="submit" content="완료" %}
 </form>
-{% endblock %}
+{% endblock content %}
