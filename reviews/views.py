@@ -1,38 +1,10 @@
 from django.shortcuts import redirect, get_object_or_404, render
 from .models import Location, HotPlace, ImageHotPlace, Reviews, ImageReviews, Location
-from .forms import ReviewForm, ReviewImageForm, HotPlaceForm, HotPlaceImageForm
+from .forms import ReviewForm, HotPlaceForm, HotPlaceImageForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 # Create your views here.
-def main(request):
-    locations = Location.objects.all()
-    context = {
-        'locations' : locations
-    }
-    return render(request, 'reviews/index.html', context)
-
-def hotlist(request, pk):
-    location = get_object_or_404(Location, pk=pk)
-    hotplaces = HotPlace.objects.filter(location_id=pk)
-    images = ImageHotPlace.objects.all()
-    context = {
-        'location': location,
-        'hotplaces' : hotplaces,
-        'images' : images
-    }
-    return render(request, 'reviews/hotlist.html', context)
-
-def hotdetail(request, pk):
-    hotplace = get_object_or_404(HotPlace, pk=pk)
-    reviews = Reviews.objects.filter(hotplace=hotplace)
-    images = ImageHotPlace.objects.filter(hotplace=hotplace)
-    context = {
-        'hotplace' : hotplace,
-        'reviews' : reviews,
-        'images' : images,
-    }
-    return render(request, 'reviews/detail.html', context)
 
 @login_required
 def hotcreate(request, pk):
@@ -62,45 +34,58 @@ def hotcreate(request, pk):
     }
     return render(request, 'reviews/hotcreate.html', context)
 
+def main(request):
+    locations = Location.objects.all()
+    
+    context = {
+        'locations' : locations
+    }
+    return render(request, 'reviews/index.html', context)
+
+def hotlist(request, pk):
+    location = get_object_or_404(Location, pk=pk)
+    hotplaces = HotPlace.objects.filter(location_id=pk)
+    context = {
+        'location': location,
+        'hotplaces' : hotplaces,
+    }
+    return render(request, 'reviews/hotlist.html', context)
+
+def hotdetail(request, pk):
+    hotplace = get_object_or_404(HotPlace, pk=pk)
+    reviews = Reviews.objects.filter(hotplace=hotplace)
+    images = ImageHotPlace.objects.filter(hotplace=hotplace)
+    context = {
+        'hotplace' : hotplace,
+        'reviews' : reviews,
+        'images' : images,
+    }
+    return render(request, 'reviews/detail.html', context)
+
 @login_required
 def reviewcreate(request, pk):
     hotplace = get_object_or_404(HotPlace, pk=pk)
-    if request.method == 'POST':
-        review_image_form = ReviewImageForm(request.POST, request.FILES)
-        review_form = ReviewForm(request.POST, request.FILES)
-        review_images = request.FILES.getlist("review_images")
-        if review_form.is_valid() and review_image_form.is_valid():
-            review = review_form.save(commit=False)
-            review.hotplace = hotplace
-            if len(review_images):
-                for review_image in review_images:
-                    review_image_instance = ImageReviews(review=review, review_image=review_image)
-                    review.save()
-                    review_image_instance.save()
-            else:
-                review.save()
-            return redirect('reviews:hotdetail', pk)
-    else:
-        review_form = ReviewForm
-        review_image_form = ReviewImageForm()
-    context = {
-        'review_image_form': review_image_form,
-        'review_form': review_form,
-        'hotplace': hotplace,
-    }
-    return render(request, 'reviews/reviewcreate.html', context)
+    review_form = ReviewForm(request.POST)
+    if review_form.is_valid():
+        review = review_form.save(commit=False)
+        review.hotplace = hotplace
+        review.user = request.user
+        review.save()
+        context = {
+            'title' : review.title,
+            'content' : review.content,
+            'image' : review.image,
+            'grade' : review.grade,
+            'username' : review.user.username
+        }
+        return JsonResponse(context)
 
 @login_required
-def reviewupdate(request, pk):
-    
-    return render(request, 'reviews/reviewcreate.html', context)
-
-@login_required
-def reviewdelete(request, pk):
+def delete(request, pk):
     review = get_object_or_404(Reviews, pk=pk)
     if request.user == review.user:
         review.delete()
-        return redirect('reviews:detail')
+        return redirect('reviews:index')
     else:
         messages.warning(request, '본인의 리뷰만 삭제할 수 있습니다.')
         return redirect('reviews:detail', pk)
