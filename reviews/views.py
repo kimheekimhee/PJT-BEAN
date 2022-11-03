@@ -5,34 +5,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 # Create your views here.
-
-def hotcreate(request, pk):
-    location = get_object_or_404(Location, pk=pk)
-    if request.method == 'POST':
-        image_form = HotPlaceImageForm(request.POST, request.FILES)
-        form = HotPlaceForm(request.POST, request.FILES)
-        images = request.FILES.getlist("image")
-        if form.is_valid() and image_form.is_valid():
-            hotplace = form.save(commit=False)
-            hotplace.location = location
-            if len(images):
-                for image in images:
-                    image_instance = ImageHotPlace(hotplace=hotplace, image=image)
-                    hotplace.save()
-                    image_instance.save()
-            else:
-                hotplace.save()
-            return redirect('reviews:hotlist', pk)
-    else:
-        form = HotPlaceForm()
-        image_form = HotPlaceImageForm()
-    context = {
-        'image_form': image_form,
-        'form': form,
-        'location': location
-    }
-    return render(request, 'reviews/hotcreate.html', context)
-
 def main(request):
     locations = Location.objects.all()
     context = {
@@ -63,6 +35,37 @@ def hotdetail(request, pk):
     return render(request, 'reviews/detail.html', context)
 
 @login_required
+def hotcreate(request, pk):
+    location = get_object_or_404(Location, pk=pk)
+    if request.method == 'POST':
+        image_form = HotPlaceImageForm(request.POST, request.FILES)
+        form = HotPlaceForm(request.POST, request.FILES)
+        images = request.FILES.getlist("image")
+        if form.is_valid() and image_form.is_valid():
+            hotplace = form.save(commit=False)
+            hotplace.location = location
+            if len(images):
+                for image in images:
+                    image_instance = ImageHotPlace(hotplace=hotplace, image=image)
+                    hotplace.save()
+                    image_instance.save()
+            else:
+                hotplace.save()
+            return redirect('reviews:hotlist', pk)
+    else:
+        form = HotPlaceForm()
+        image_form = HotPlaceImageForm()
+    context = {
+        'image_form': image_form,
+        'form': form,
+        'location': location
+    }
+    return render(request, 'reviews/hotcreate.html', context)
+
+
+
+
+@login_required
 def reviewcreate(request, pk):
     hotplace = get_object_or_404(HotPlace, pk=pk)
     if request.method == 'POST':
@@ -91,11 +94,21 @@ def reviewcreate(request, pk):
     return render(request, 'reviews/reviewcreate.html', context)
 
 @login_required
-def delete(request, pk):
+def reviewupdate(request, pk):
+    review_form = Reviews.object.get(pk=pk)
+    if request.method == 'POST':
+        review_form = 
+    context = {
+        'reviewcreate' = reviewcreate,
+    }
+    return render(request, 'reviews/reviewcreate.html', context)
+
+@login_required
+def reviewdelete(request, pk):
     review = get_object_or_404(Reviews, pk=pk)
     if request.user == review.user:
         review.delete()
-        return redirect('reviews:index')
+        return redirect('reviews:detail')
     else:
         messages.warning(request, '본인의 리뷰만 삭제할 수 있습니다.')
         return redirect('reviews:detail', pk)
