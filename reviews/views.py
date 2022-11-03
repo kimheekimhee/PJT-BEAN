@@ -67,7 +67,7 @@ def reviewcreate(request, pk):
     hotplace = get_object_or_404(HotPlace, pk=pk)
     if request.method == 'POST':
         review_image_form = ReviewImageForm(request.POST, request.FILES)
-        review_form = ReviewForm(request.POST, request, FILES)
+        review_form = ReviewForm(request.POST, request.FILES)
         review_images = request.FILES.getlist("review_images")
         if review_form.is_valid() and review_image_form.is_valid():
             review = review_form.save(commit=False)
