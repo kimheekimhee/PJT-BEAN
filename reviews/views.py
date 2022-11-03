@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, get_object_or_404, render
 from .models import Location, HotPlace, ImageHotPlace, Reviews, ImageReviews, Location
-from .forms import ReviewForm, HotPlaceForm, HotPlaceImageForm
+from .forms import ReviewForm, ReviewImageForm, HotPlaceForm, HotPlaceImageForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -65,20 +65,30 @@ def hotdetail(request, pk):
 @login_required
 def reviewcreate(request, pk):
     hotplace = get_object_or_404(HotPlace, pk=pk)
-    review_form = ReviewForm(request.POST)
-    if review_form.is_valid():
-        review = review_form.save(commit=False)
-        review.hotplace = hotplace
-        review.user = request.user
-        review.save()
-        context = {
-            'title' : review.title,
-            'content' : review.content,
-            'image' : review.image,
-            'grade' : review.grade,
-            'username' : review.user.username
-        }
-        return JsonResponse(context)
+    if request.method == 'POST':
+        review_image_form = ReviewImageForm(request.POST, request.FILES)
+        review_form = ReviewForm(request.POST, request, FILES)
+        review_images = request.FILES.getlist("review_images")
+        if review_form.is_valid() and review_image_form.is_valid():
+            review = review_form.save(commit=False)
+            review.hotplace = hotplace
+            if len(review_images):
+                for review_image in review_images:
+                    review_image_instance = ImageReviews(review=review, review_image=review_image)
+                    review.save()
+                    review_image_instance.save()
+            else:
+                review.save()
+            return redirect('reviews:hotdetail', pk)
+    else:
+        review_form = ReviewForm
+        review_image_form = ReviewImageForm()
+    context = {
+        'review_image_form': review_image_form,
+        'review_form': review_form,
+        'hotplace': hotplace,
+    }
+    return render(request, 'reviews/reviewcreate.html', context)
 
 @login_required
 def delete(request, pk):
