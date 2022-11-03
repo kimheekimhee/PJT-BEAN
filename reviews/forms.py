@@ -25,3 +25,8 @@ class HotPlaceImageForm(forms.ModelForm):
         widgets = {
             "image": ClearableFileInput(attrs={"multiple": True}),
         }
+
+class HotUpdateForm(forms.ModelForm):
+    class Meta:
+        model = HotPlace
+        fields = ['hotplace', 'theme', 'content', ]

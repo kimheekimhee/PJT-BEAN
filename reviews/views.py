@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, get_object_or_404, render
 from .models import Location, HotPlace, ImageHotPlace, Reviews, ImageReviews, Location
-from .forms import ReviewForm, HotPlaceForm, HotPlaceImageForm, ReviewImageForm
+from .forms import ReviewForm, HotPlaceForm, HotPlaceImageForm, ReviewImageForm, HotUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -99,3 +99,29 @@ def delete(request, pk):
     else:
         messages.warning(request, '본인의 리뷰만 삭제할 수 있습니다.')
         return redirect('reviews:detail', pk)
+
+@login_required
+def hotupdate(request, pk):
+    hotplace = get_object_or_404(HotPlace, pk=pk)
+    if request.method == 'POST':
+        image_form = HotPlaceImageForm(request.POST, request.FILES, instance=hotplace)
+        form = HotUpdateForm(request.POST, request.FILES, instance=hotplace)
+        images = request.FILES.getlist("image")
+        if form.is_valid() and image_form.is_valid():
+            hotplace = form.save(commit=False)
+            if len(images):
+                for image in images:
+                    image_instance = ImageHotPlace(hotplace=hotplace, image=image)
+                    hotplace.save()
+                    image_instance.save()
+            else:
+                hotplace.save()
+            return redirect('reviews:hotdetail', pk)
+    else:
+        form = HotUpdateForm(instance=hotplace)
+        image_form = HotPlaceImageForm(instance=hotplace)
+    context = {
+        'image_form': image_form,
+        'form': form,
+    }
+    return render(request, 'reviews/hotupdate.html', context)
