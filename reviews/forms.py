@@ -22,6 +22,9 @@ class HotPlaceImageForm(forms.ModelForm):
     class Meta:
         model = ImageHotPlace
         fields = ['image', ]
+        labels = {
+            'image': '이미지'
+        }
         widgets = {
             "image": ClearableFileInput(attrs={"multiple": True}),
         }
