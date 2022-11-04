@@ -5,7 +5,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseForbidden
-from .forms import CustomUserChangeForm
+from .forms import CustomUserChangeForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -108,12 +108,12 @@ def delete(request):
 @login_required
 def profile_update(request):
     if request.method == "POST":
-        form = CustomUserChangeForm(request.POST, instance=request.user)
+        form = ProfileForm(request.POST,request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect("accounts:detail", request.user.pk)
     else:
-        form = CustomUserChangeForm(instance=request.user)
+        form = ProfileForm(instance=request.user)
     return render(
         request,
         "accounts/profile_update.html",
