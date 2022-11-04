@@ -91,14 +91,11 @@ def reviewcreate(request, pk):
 
 
 @login_required
-def delete(request, pk):
+def reviewdelete(request, pk):
     review = get_object_or_404(Reviews, pk=pk)
     if request.user == review.user:
         review.delete()
         return redirect('reviews:index')
-    else:
-        messages.warning(request, '본인의 리뷰만 삭제할 수 있습니다.')
-        return redirect('reviews:detail', pk)
 
 @login_required
 def hotupdate(request, pk):
@@ -125,3 +122,30 @@ def hotupdate(request, pk):
         'form': form,
     }
     return render(request, 'reviews/hotupdate.html', context)
+
+@login_required
+def reviewupdate(request, pk):
+    hotplace = get_object_or_404(HotPlace, pk=pk)
+    review_form = ReviewForm(request.POST, request.FILES, instance=review)
+    image_form = ReviewImageForm(request.POST, request.FILES, instance=review)
+    images = request.FILES.getlist("image")
+    if review_form.is_valid() and image_form.is_valid():
+        review = review_form.save(commit=False)
+        review.hotplace = hotplace
+        review.user = request.user
+        if len(images):
+            for image in images:
+                image_instance = ImageReviews(reviews=review, image=image)
+                review.save()
+                image_instance.save()
+        else:
+            review.save()
+        return redirect('reviews:hotdetail', pk)
+    else:
+        review_form = ReviewForm()
+        image_form = ReviewImageForm()
+    context = {
+        'review_form': review_form,
+        'image_form': image_form
+    }
+    return render(request, 'reviews/reviewupdate.html', context)

@@ -9,7 +9,7 @@ urlpatterns = [
     path('<int:pk>', views.hotdetail, name='hotdetail'),
     path('<int:pk>/hotcreate', views.hotcreate, name='hotcreate'),
     path('<int:pk>/reviewcreate', views.reviewcreate, name='reviewcreate'),
-    path('<int:pk>/delete', views.delete, name='delete'),
-    path('<int:pk>/reviewcreate', views.reviewcreate, name='reviewcreate'),
+    path('<int:pk>/reviewdelete', views.reviewdelete, name='reviewdelete'),
     path('<int:pk>/hotupdate', views.hotupdate, name='hotupdate'),
+    path('<int:pk>/reviewupdate', views.reviewupdate, name='reviewupadte'),
 ]
