@@ -35,10 +35,13 @@ def hotcreate(request, pk):
     return render(request, 'reviews/hotcreate.html', context)
 
 def main(request):
-    locations = Location.objects.all()
-    
+    domestics = Location.objects.filter(country=True)
+    overseas = Location.objects.filter(country=False)
+    themes = HotPlace.objects.values('theme').distinct()
     context = {
-        'locations' : locations
+        'domestics': domestics,
+        'overseas': overseas,
+        'themes': themes,
     }
     return render(request, 'reviews/index.html', context)
 
@@ -125,3 +128,14 @@ def hotupdate(request, pk):
         'form': form,
     }
     return render(request, 'reviews/hotupdate.html', context)
+
+
+def hotlist_theme(request, slug):
+    if slug == 'all':
+        hotplaces = HotPlace.objects.all()
+    else:
+        hotplaces = HotPlace.objects.filter(theme=slug)
+    context={
+        'hotplaces': hotplaces
+    }
+    return render(request, 'reviews/hotlist_theme.html', context)

@@ -9,7 +9,7 @@ class Hotplaceadmin(admin.ModelAdmin):
     list_display =  ['location', 'hotplace', 'theme' ]
 
 class Locationadmin(admin.ModelAdmin):
-    list_display = ['location']
+    list_display = ['location', 'country']
 
 class ImageReviewsadmin(admin.ModelAdmin):
     list_display = ['reviews']

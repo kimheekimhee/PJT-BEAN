@@ -13,3 +13,11 @@ for i in range(20):
     hotplace.content = i
     hotplace.location_id = location.pk
     hotplace.save()
+
+lst = ['미국', '러시아', '스페인', '영국', '일본', '홍콩', '프랑스', '싱가포르']
+
+for i in lst:
+    location = Location.objects.create()
+    location.location = i
+    location.country = 0
+    location.save()
