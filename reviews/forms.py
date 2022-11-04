@@ -1,5 +1,4 @@
 from django import forms
-from django import forms
 from .models import Reviews, HotPlace, Location, ImageHotPlace, ImageReviews
 from django.forms import ClearableFileInput
 
