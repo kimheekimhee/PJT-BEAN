@@ -1,15 +1,37 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load static %}
 {% block content %}
-{% bootstrap_css %}
-{% bootstrap_javascript%}
-<div class="container d-flex justify-content-between">
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ hotplace.hotplace }} <span class="text-muted" style="font-size:12px;" >{{ images.count }}개의 사진이 있습니다.</span> </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            {% for img in images %}
+            <div class="w-100">
+                <img src="{{ img.image.url }}" alt="" class="mt-3 img-fluid">
+            </div>
+            {% endfor %}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+    </div>
+<div class="container d-flex justify-content-between">   
     <div class="m-3" style="width:700px">
+        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
         {% for img in images %}
             {% if forloop.first %}
-            <img class="img-fluid" src="{{ img.image.url }}" alt="">
-            {% endif%}
-        {% endfor %}
+                <img class="img-fluid" src="{{ img.image.url }}" alt="">
+                {% endif%}
+                {% endfor %}
+        </a>
     </div>
     <div class="card m-3" style="width:50%;">
         <div class="card-body">
@@ -71,8 +93,6 @@
         </div>
     </div>
 </div>
-
-
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a296fe5c49ee5c07b18af90b459b38bb"></script>
 <script>

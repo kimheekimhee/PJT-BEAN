@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load static %}
 {% block content %}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-<div class="container">    
+<div class="position-relative d-flex justify-content-center" style="background-image:url({% static 'reviews/main.jpg' %}); height:640px; background-size:cover; margin: 0px 12px">
+    <p style="color:rgb(255, 255, 255); text-shadow: 4px 4px 4px black; font-weight:bold; position:absolute; left:50%; bottom:20%; transform:translate(-50%, -50%); font-size: 64px;">Bean's Travel</p>
+</div>
+<div class="container my-3">    
     <h3 class="text-center">인기 여행지</h3>
     <div class="d-flex justify-content-center">
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">

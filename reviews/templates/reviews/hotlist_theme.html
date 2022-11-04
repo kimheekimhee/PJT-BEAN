@@ -19,6 +19,7 @@
 
 <div class="container position-relative">
 <div class="row justify-content-center">
+    <form class="d-flex" action="" method="POST">
     <div class="col-2">
         <select class="form-select">
             <option selected>Test</option>
@@ -28,11 +29,10 @@
           </select>
     </div>
     <div class="col-6">
-    <form class="d-flex" action="" method="POST">
             <input class="form-control mx-3" type="text" placeholder="검색어를 입력하세요">
             <button class="btn btn-primary mx-3" type="submit">submit</button>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
     {% for hotplace in hotplaces %}
     <a class="row my-3 border rounded w-75 m-auto" href="{% url 'reviews:hotdetail' hotplace.pk %}" style="text-decoration:none; color:black;">

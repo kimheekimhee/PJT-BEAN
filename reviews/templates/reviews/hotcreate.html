@@ -29,19 +29,18 @@
             </select>
         </div>
         {% endif %}
-        <div class="mb-3"><label class="form-label" for="id_theme">테마</label>
-            <select aria-label="Default select example" class="form-select" name="themeselect" onchange="theme_change()">
-                <option value="0" >선택하세요</option>
+        <div class="mb-3"><label class="form-label" for="id_theme" >테마</label>
+            <select aria-label="Default select example" class="form-select mb-3" name="themeselect" onchange="theme_change()">
                 <option value="9">직접입력</option>
+                <option value="관광" selected>관광</option>
                 <option value="테마파크">테마파크</option>
                 <option value="액티비티">액티비티</option> 
                 <option value="산">산</option>
                 <option value="바다">바다</option>
                 <option value="도시">도시</option> 
-                <option value="관광">관광</option> 
                 <option value="문화재">문화재</option> 
             </select>
-            <input cols="40" rows="10" id="id_theme" class="form-control" type="hidden" name="theme" placeholder="테마를 직접입력하세요." disabled >
+            <input required="" cols="40" rows="10" id="id_theme" class="form-control" type="hidden" name="theme" placeholder="테마를 직접입력하세요.">
         </div>
 
         <div class="mb-3"><label class="form-label" for="id_content">명소 설명</label><textarea name="content" cols="40" rows="10" class="form-control" placeholder="명소 설명" required="" id="id_content"></textarea></div>
@@ -123,20 +122,12 @@ function transform() {
 });
 }
 function theme_change(){
-if(document.mapform.themeselect.options[document.mapform.themeselect.selectedIndex].value == '0'){
- document.mapform.theme.type = "hidden"
- document.mapform.theme.disabled = true;
- document.mapform.theme.value = "";
-}
-
 if(document.mapform.themeselect.options[document.mapform.themeselect.selectedIndex].value == '9'){
- document.mapform.theme.disabled = false;
  document.mapform.theme.type = "text"
- document.mapform.theme.value = "";
+ document.mapform.theme.value ="";
  document.mapform.theme.focus();
 } else{
  document.mapform.theme.type = "hidden"
- document.mapform.theme.disabled = true;
  document.mapform.theme.value = document.mapform.themeselect.options[document.mapform.themeselect.selectedIndex].value;
 }
 }

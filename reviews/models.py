@@ -23,7 +23,7 @@ class ImageLocation(models.Model):
 class HotPlace(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='hotplace')
     hotplace = models.CharField(max_length=100)
-    addr = models.CharField(max_length=80)
+    addr = models.CharField(max_length=80, blank=True, null=True)
     x = models.CharField(max_length=80, blank=True, null=True)
     y = models.CharField(max_length=80, blank=True, null=True)
     theme = models.CharField(max_length=80)

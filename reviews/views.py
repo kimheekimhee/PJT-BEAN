@@ -24,6 +24,8 @@ def hotcreate(request, pk):
             else:
                 hotplace.save()
             return redirect('reviews:hotlist', pk)
+        else:
+            messages.warning(request, '모든 항목을 입력해 주세요.')
     else:
         form = HotPlaceForm()
         image_form = HotPlaceImageForm()
