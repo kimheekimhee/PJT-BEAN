@@ -35,7 +35,7 @@
 
 
 <div class="container position-relative">
-    <a href="{% url 'reviews:reviewcreate' hotplace.pk %}" class="btn btn-primary position-fixed" style="right:10%; bottom:20%; font-size:larger;">후기 추가하기</a>
+    <a href="{% url 'reviews:reviewcreate' hotplace.pk %}" class="btn btn-primary position-fixed" style="right:10%; bottom:20%; font-size:larger;">+ review</a>
 
 
 <div class="tab-content" id="pills-tabContent">
@@ -67,7 +67,7 @@
                             {{review.grade}}
                             {% if request.user == review.user %}
                                 <div class="d-flex justify-content-end">
-                                    <a href="#" class="btn btn-warning">수정</a>
+                                    <a href="{% url 'reviews:reviewupdate' review.pk %}" class="btn btn-warning">수정</a>
                                     <a href="{% url 'reviews:reviewdelete' review.pk %}" class="btn btn-danger">삭제</a>
                                 </div>
                             {% endif %}
