@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, get_object_or_404, render
 from .models import Location, HotPlace, ImageHotPlace, Reviews, ImageReviews, Location
-from .forms import ReviewForm, HotPlaceForm, HotPlaceImageForm, ReviewImageForm, HotUpdateForm
+from .forms import ReviewForm, HotPlaceForm, HotPlaceImageForm, ReviewImageForm, HotUpdateForm, ReviewUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -125,27 +125,26 @@ def hotupdate(request, pk):
 
 @login_required
 def reviewupdate(request, pk):
-    hotplace = get_object_or_404(HotPlace, pk=pk)
-    review_form = ReviewForm(request.POST, request.FILES, instance=review)
-    image_form = ReviewImageForm(request.POST, request.FILES, instance=review)
-    images = request.FILES.getlist("image")
-    if review_form.is_valid() and image_form.is_valid():
-        review = review_form.save(commit=False)
-        review.hotplace = hotplace
-        review.user = request.user
-        if len(images):
-            for image in images:
-                image_instance = ImageReviews(reviews=review, image=image)
+    review = get_object_or_404(Reviews, pk=pk)
+    if request.method == 'POST':
+        review_image_form = ReviewImageForm(request.POST, request.FILES, instance=review)
+        review_form = ReviewUpdateForm(request.POST, request.FILES, instance=review)
+        images = request.FILES.getlist("image")
+        if review_form.is_valid() and review_image_form.is_valid():
+            review = review_form.save(commit=False)
+            if len(images):
+                for image in images:
+                    image_instance = ImageHotPlace(hotplace=review, image=image)
+                    review.save()
+                    image_instance.save()
+            else:
                 review.save()
-                image_instance.save()
-        else:
-            review.save()
-        return redirect('reviews:hotdetail', pk)
+            return redirect('reviews:hotdetail', pk)
     else:
-        review_form = ReviewForm()
-        image_form = ReviewImageForm()
+        review_form = ReviewUpdateForm(instance=review)
+        review_image_form = ReviewImageForm(instance=review)
     context = {
+        'review_image_form': review_image_form,
         'review_form': review_form,
-        'image_form': image_form
     }
     return render(request, 'reviews/reviewupdate.html', context)
