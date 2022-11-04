@@ -6,6 +6,7 @@ from .forms import (
     HotPlaceImageForm,
     ReviewImageForm,
     HotUpdateForm,
+    ReviewUpdateForm,
 )
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -34,6 +35,8 @@ def hotcreate(request, pk):
             else:
                 hotplace.save()
             return redirect("reviews:hotlist", pk)
+        else:
+            messages.warning(request, "모든 항목을 입력해 주세요.")
     else:
         form = HotPlaceForm()
         image_form = HotPlaceImageForm()
@@ -42,9 +45,14 @@ def hotcreate(request, pk):
 
 
 def main(request):
-    locations = Location.objects.all()
-
-    context = {"locations": locations}
+    domestics = Location.objects.filter(country=True)
+    overseas = Location.objects.filter(country=False)
+    themes = HotPlace.objects.values("theme").distinct()
+    context = {
+        "domestics": domestics,
+        "overseas": overseas,
+        "themes": themes,
+    }
     return render(request, "reviews/index.html", context)
 
 
@@ -96,14 +104,11 @@ def reviewcreate(request, pk):
 
 
 @login_required
-def delete(request, pk):
+def reviewdelete(request, pk):
     review = get_object_or_404(Reviews, pk=pk)
     if request.user == review.user:
         review.delete()
-        return redirect("reviews:index")
-    else:
-        messages.warning(request, "본인의 리뷰만 삭제할 수 있습니다.")
-        return redirect("reviews:detail", pk)
+        return redirect("reviews:hotdetail", review.hotplace.pk)
 
 
 @login_required
@@ -131,6 +136,38 @@ def hotupdate(request, pk):
         "form": form,
     }
     return render(request, "reviews/hotupdate.html", context)
+
+
+def hotlist_theme(request, slug):
+    if slug == "all":
+        hotplaces = HotPlace.objects.all()
+    else:
+        hotplaces = HotPlace.objects.filter(theme=slug)
+    context = {"hotplaces": hotplaces}
+    return render(request, "reviews/hotlist_theme.html", context)
+
+
+@login_required
+def reviewupdate(request, pk):
+    review = get_object_or_404(Reviews, pk=pk)
+    review_form = ReviewForm(request.POST, request.FILES, instance=review)
+    image_form = ReviewImageForm(request.POST, request.FILES, instance=review)
+    images = request.FILES.getlist("image")
+    if review_form.is_valid() and image_form.is_valid():
+        review = review_form.save(commit=False)
+        if len(images):
+            for image in images:
+                image_instance = ImageReviews(reviews=review, image=image)
+                review.save()
+                image_instance.save()
+        else:
+            review.save()
+        return redirect("reviews:hotdetail", review.hotplace.pk)
+    else:
+        review_form = ReviewForm(instance=review)
+        image_form = ReviewImageForm(instance=review)
+    context = {"review_form": review_form, "image_form": image_form}
+    return render(request, "reviews/reviewcreate.html", context)
 
 
 """

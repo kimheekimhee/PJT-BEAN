@@ -8,19 +8,41 @@
     <form name="mapform" action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3"><label class="form-label" for="id_hotplace">명소 이름</label><input type="text" name="hotplace" maxlength="100" class="form-control" placeholder="명소 이름" required="" id="id_hotplace"></div>
+        {% if location.country %}
         <div id="map" style="width:100%;height:400px;"></div>
         <label for="id_addr" class="form-label">주소</label>
         <div class="input-group mb-3">
             <input name="addr" maxlength="80" type="text" class="form-control" placeholder="직접 입력하거나 지도를 클릭해 마커를 표시하세요." id="id_addr" aria-label="Recipient's username" aria-describedby="button-addon2">
             <button onclick="transform()" class="btn btn-primary" type="button" id="button-addon2">주소 확인</button>
-          </div>
-        <div class="mb-3"><label class="form-label" for="id_theme">테마</label><input type="text" name="theme" maxlength="80" class="form-control" placeholder="테마" required="" id="id_theme"></div>
+        </div>
         <div class="mb-3"><label class="form-label" for="id_country">국가</label>
-            <select name="country" class="form-select" aria-label="Default select example">
+        <select name="country" class="form-select" aria-label="Default select example">
                 <option selected>국내</option>
                 <option>해외</option>
-              </select>
+                </select>
         </div>
+        {% else %}
+        <div class="mb-3"><label class="form-label" for="id_country">국가</label>
+            <select name="country" class="form-select" aria-label="Default select example">
+                    <option>국내</option>
+                    <option selected>해외</option>
+            </select>
+        </div>
+        {% endif %}
+        <div class="mb-3"><label class="form-label" for="id_theme" >테마</label>
+            <select aria-label="Default select example" class="form-select mb-3" name="themeselect" onchange="theme_change()">
+                <option value="9">직접입력</option>
+                <option value="관광" selected>관광</option>
+                <option value="테마파크">테마파크</option>
+                <option value="액티비티">액티비티</option> 
+                <option value="산">산</option>
+                <option value="바다">바다</option>
+                <option value="도시">도시</option> 
+                <option value="문화재">문화재</option> 
+            </select>
+            <input required="" cols="40" rows="10" id="id_theme" class="form-control" type="hidden" name="theme" placeholder="테마를 직접입력하세요.">
+        </div>
+
         <div class="mb-3"><label class="form-label" for="id_content">명소 설명</label><textarea name="content" cols="40" rows="10" class="form-control" placeholder="명소 설명" required="" id="id_content"></textarea></div>
         {% bootstrap_form image_form %}
         <input name="x" type="hidden" value="">
@@ -30,6 +52,7 @@
 </div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a296fe5c49ee5c07b18af90b459b38bb&libraries=services"></script>
 <script>
+
 var mapContainer = document.getElementById('map'),
     mapOption = { 
         center: new kakao.maps.LatLng(33.450701, 126.570667),
@@ -98,6 +121,15 @@ function transform() {
     } 
 });
 }
-
+function theme_change(){
+if(document.mapform.themeselect.options[document.mapform.themeselect.selectedIndex].value == '9'){
+ document.mapform.theme.type = "text"
+ document.mapform.theme.value ="";
+ document.mapform.theme.focus();
+} else{
+ document.mapform.theme.type = "hidden"
+ document.mapform.theme.value = document.mapform.themeselect.options[document.mapform.themeselect.selectedIndex].value;
+}
+}
 </script>
 {% endblock %}

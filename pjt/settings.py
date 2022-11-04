@@ -129,7 +129,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'accounts' / 'static',
+    BASE_DIR / 'static',
 ]
 
 MEDIA_ROOT = BASE_DIR / "images"

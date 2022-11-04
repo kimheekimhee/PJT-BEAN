@@ -18,7 +18,6 @@ class CustomUserChangeForm(UserChangeForm):
         fields = (
             "username",
             "image",
-            
         )
 
 class ProfileForm(forms.ModelForm):

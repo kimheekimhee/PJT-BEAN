@@ -7,6 +7,7 @@ from imagekit.processors import ResizeToFill
 
 class Location(models.Model):
     location = models.CharField(max_length=80)
+    country = models.BooleanField(default=True)
 
 
 class ImageLocation(models.Model):
@@ -29,11 +30,11 @@ class ImageLocation(models.Model):
 
 
 class HotPlace(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='hotplace')
     hotplace = models.CharField(max_length=100)
-    addr = models.CharField(max_length=80)
-    x = models.CharField(max_length=80, blank=False, null=False)
-    y = models.CharField(max_length=80, blank=False, null=False)
+    addr = models.CharField(max_length=80, blank=True, null=True)
+    x = models.CharField(max_length=80, blank=True, null=True)
+    y = models.CharField(max_length=80, blank=True, null=True)
     theme = models.CharField(max_length=80)
     country = models.CharField(max_length=50)
     content = models.TextField()
