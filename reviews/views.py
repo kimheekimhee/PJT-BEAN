@@ -95,7 +95,7 @@ def reviewdelete(request, pk):
     review = get_object_or_404(Reviews, pk=pk)
     if request.user == review.user:
         review.delete()
-        return redirect('reviews:index')
+        return redirect('reviews:hotdetail', review.hotplace.pk)
 
 @login_required
 def hotupdate(request, pk):
