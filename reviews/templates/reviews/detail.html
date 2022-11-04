@@ -56,7 +56,8 @@
 </div>
 
 
-
+<div class="container position-relative">
+    <a href="{% url 'reviews:reviewcreate' hotplace.pk %}" class="btn btn-primary position-fixed" style="right:10%; bottom:20%; font-size:larger;">+ review</a>
 
 
 <div class="tab-content" id="pills-tabContent">
@@ -70,22 +71,29 @@
         <div class="container row row-cols-1">
             <div class="row py-5 px-3" style="">
                 {% for review in reviews %}
-                    <div class="card">
+                    <div class="card border-light mb-3" style="max-width:33%">
                         {% for img in review.image.all %}
                         {% if forloop.first %}
                         <img src="{{ img.image.url }}" class="card-img-top" alt="...">
                         {% endif %}
                         {% endfor %}
-            
+                        <div class="card-body">
                             <h5 class="card-title">
                             {{review.title}}
                             </h5>
             
-                            <h6>
+                            <h6 class="card-text">
                             {{review.content}}
                             </h6>
             
                             {{review.grade}}
+                            {% if request.user == review.user %}
+                                <div class="d-flex justify-content-end">
+                                    <a href="{% url 'reviews:reviewupdate' review.pk %}" class="btn btn-warning">수정</a>
+                                    <a href="{% url 'reviews:reviewdelete' review.pk %}" class="btn btn-danger">삭제</a>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
                 {% endfor %}
             </div>

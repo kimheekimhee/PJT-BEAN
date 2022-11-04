@@ -33,3 +33,8 @@ class HotUpdateForm(forms.ModelForm):
     class Meta:
         model = HotPlace
         fields = ['hotplace', 'theme', 'content', ]
+
+class ReviewUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Reviews
+        fields = ['title', 'content', 'grade', ]
