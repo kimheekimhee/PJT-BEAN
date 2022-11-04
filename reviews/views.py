@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, get_object_or_404, render
 from .models import Location, HotPlace, ImageHotPlace, Reviews, ImageReviews, Location
-from .forms import ReviewForm, HotPlaceForm, HotPlaceImageForm, ReviewImageForm, HotUpdateForm
+from .forms import ReviewForm, HotPlaceForm, HotPlaceImageForm, ReviewImageForm, HotUpdateForm, ReviewUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -91,14 +91,11 @@ def reviewcreate(request, pk):
 
 
 @login_required
-def delete(request, pk):
+def reviewdelete(request, pk):
     review = get_object_or_404(Reviews, pk=pk)
     if request.user == review.user:
         review.delete()
         return redirect('reviews:index')
-    else:
-        messages.warning(request, '본인의 리뷰만 삭제할 수 있습니다.')
-        return redirect('reviews:detail', pk)
 
 @login_required
 def hotupdate(request, pk):
@@ -125,3 +122,29 @@ def hotupdate(request, pk):
         'form': form,
     }
     return render(request, 'reviews/hotupdate.html', context)
+
+@login_required
+def reviewupdate(request, pk):
+    review = get_object_or_404(Reviews, pk=pk)
+    if request.method == 'POST':
+        review_image_form = ReviewImageForm(request.POST, request.FILES, instance=review)
+        review_form = ReviewUpdateForm(request.POST, request.FILES, instance=review)
+        images = request.FILES.getlist("image")
+        if review_form.is_valid() and review_image_form.is_valid():
+            review = review_form.save(commit=False)
+            if len(images):
+                for image in images:
+                    image_instance = ImageHotPlace(hotplace=review, image=image)
+                    review.save()
+                    image_instance.save()
+            else:
+                review.save()
+            return redirect('reviews:hotdetail', pk)
+    else:
+        review_form = ReviewUpdateForm(instance=review)
+        review_image_form = ReviewImageForm(instance=review)
+    context = {
+        'review_image_form': review_image_form,
+        'review_form': review_form,
+    }
+    return render(request, 'reviews/reviewupdate.html', context)
