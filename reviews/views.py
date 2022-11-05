@@ -170,17 +170,16 @@ def reviewupdate(request, pk):
     return render(request, "reviews/reviewcreate.html", context)
 
 
-"""
-@require_POST
-def likes(request, review_pk):
-    if request.user.is_authenticated:
-        # review = Reviews.objects.get(pk=review_pk)
-        review = get_object_or_404(Reviews, pk=review_pk)
-        if review.like_user.filter(pk=request.user.pk).exists():
-            review.like_user.remove(request.user)
-        else:
-            review.like_user.add(request.user)
-        return redirect("reviews:hotdetail", review_pk)
+@login_required
+def like(request, pk):
+    review = Reviews.objects.get(pk=pk)
+    # 만약에 로그인한 유저가 이 글을 좋아요를 눌렀다면,
+    # if article.like_users.filter(id=request.user.id).exists():
+    if request.user in review.like_users.all():
+        # 좋아요 삭제하고
+        review.like_users.remove(request.user)
     else:
-        return HttpResponseForbidden()
-"""
+        # 좋아요 추가하고
+        review.like_users.add(request.user)
+    # 상세 페이지로 redirect
+    return redirect("reviews:detail", pk)

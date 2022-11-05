@@ -192,7 +192,17 @@
       <div class="col-md-4">
         <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/22/4f/70/dc/cour-napoleon-et-pyramide.jpg?w=1200&h=-1&s=1" class="img-fluid rounded-start" alt="...">
 
-        <!-- 좋아요 기능 1 {% if request.user in review.like_users.all %} <a href="{% url 'reviews:likes' review.pk %}"> <i class="fas fa-heart fa-lg animated hinge delay-1s" style="color: red;"></i> </a> {% else %} <a href="{% url 'reviews:likes' review.pk %}"> <i class="far fa-heart fa-lg animated infinite bounce delay-1s" style="color: gray;"></i> </a> {% endif %} <p>{{ review.like_users.count }}명이 좋아합니다.</p> -->
+        <div class="text-center my-4">
+          {% if request.user.is_authenticated %}
+            <a id="like-link" href="{% url 'reviews:like' review.pk %}">
+              {% if request.user in review.like_users.all %}
+                <i id="like-btn" class="bi bi-heart-fill"></i>
+              {% else %}
+                <i id="like-btn" class="bi bi-heart"></i>
+              {% endif %}
+            </a>{{ review.like_users.count }}
+          {% endif %}
+        </div>
       </div>
 
     </div>
