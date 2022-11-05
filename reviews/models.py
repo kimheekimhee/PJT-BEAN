@@ -30,7 +30,9 @@ class ImageLocation(models.Model):
 
 
 class HotPlace(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='hotplace')
+    location = models.ForeignKey(
+        Location, on_delete=models.CASCADE, related_name="hotplace"
+    )
     hotplace = models.CharField(max_length=100)
     addr = models.CharField(max_length=80, blank=True, null=True)
     x = models.CharField(max_length=80, blank=True, null=True)
@@ -67,8 +69,8 @@ class Reviews(models.Model):
     grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    like_user = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="like_user"
+    like_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="like_reviews"
     )
 
 
