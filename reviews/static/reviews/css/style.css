@@ -1,3 +1,6 @@
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
 .rating {
     --dir: right;
     --fill: gold;
@@ -70,7 +73,7 @@
   [dir="rtl"] .rating--nojs::-webkit-slider-thumb {
     box-shadow: var(--w) 0 0 var(--w) var(--fill);
   }
-  
+
 a {
   text-decoration:none;
 }
