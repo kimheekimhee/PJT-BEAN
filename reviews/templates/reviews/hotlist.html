@@ -68,9 +68,9 @@
 
             {% if request.user.is_authenticated %}
                 {% if request.user in hotplace.like_users.all %}
-                  <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart-fill" style="color:red; cursor: pointer;"></i>
+                  <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart-fill" style="color:red; "></i>
                 {% else %}
-                  <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart" style="color:red; cursor: pointer;"></i>
+                  <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart" style="color:red; "></i>
                 {% endif %}
               <span id="like-count" >{{ hotplace.like_users.count }}</span>
               <i class="bi bi-chat"></i> {{ hotplace.reviews.count }}
