@@ -27,6 +27,7 @@ class Migration(migrations.Migration):
                 ('theme', models.CharField(max_length=80)),
                 ('country', models.CharField(max_length=50)),
                 ('content', models.TextField()),
+                ('like_users', models.ManyToManyField(related_name='like_hotplaces', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -47,7 +48,6 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('hotplace', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.hotplace')),
-                ('like_users', models.ManyToManyField(related_name='like_reviews', to=settings.AUTH_USER_MODEL)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

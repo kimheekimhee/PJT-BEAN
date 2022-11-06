@@ -40,6 +40,9 @@ class HotPlace(models.Model):
     theme = models.CharField(max_length=80)
     country = models.CharField(max_length=50)
     content = models.TextField()
+    like_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="like_hotplaces"
+    )
 
 
 class ImageHotPlace(models.Model):
@@ -69,9 +72,7 @@ class Reviews(models.Model):
     grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    like_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="like_reviews"
-    )
+
 
 
 class ImageReviews(models.Model):
