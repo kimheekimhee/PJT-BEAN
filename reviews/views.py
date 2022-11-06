@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, get_object_or_404, render
-from django.db.models import Avg, Count
+from django.db.models import Avg, Count, Max
 from .models import Location, HotPlace, ImageHotPlace, Reviews, ImageReviews, Location
 from .forms import (
     ReviewForm,
@@ -59,7 +59,7 @@ def main(request):
 
 def hotlist(request, pk):
     location = get_object_or_404(Location, pk=pk)
-    hotplaces = HotPlace.objects.filter(location_id=pk).annotate(star=Avg('reviews__grade'))
+    hotplaces = HotPlace.objects.filter(location_id=pk).annotate(star=Avg('reviews__grade')).annotate(latestdate=Max('reviews__updated_at'))
 
     context = {
         "location": location,

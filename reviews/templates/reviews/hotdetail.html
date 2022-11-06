@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% load static %}
+{% load humanize %}
 {% block css %}<link rel="stylesheet" href="{% static 'reviews/css/style.css' %}">{% endblock css %}
 {% block content %}
 
@@ -108,7 +109,7 @@
                             <h5 class="card-title">
                             {{review.title}}
                             </h5>
-                            <p class="text-muted">{{ review.created_at|date:'Y년 m월 d일 A h시 m분' }}</p>
+                            <p class="text-muted">{{ review.created_at|naturaltime }}</p>
                             <h6 class="card-text">
                             {{review.content}}
                             </h6>
