@@ -2,18 +2,18 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-<div id="carouselExampleControls" class="carousel slide w-75 my-3 mx-auto" data-bs-ride="carousel">
+  <div id="carouselExampleControls" class="carousel slide w-75 my-3 mx-auto" data-bs-ride="carousel">
     <div class="carousel-inner">
       {% for img in location.image.all %}
-      {% if forloop.first %}
-      <div class="carousel-item active">
-        <img src="{{ img.image.url }}" class="d-block w-100" alt="...">
-      </div>
-      {% else %}
-      <div class="carousel-item">
-        <img src="{{ img.image.url }}" class="d-block w-100" alt="...">
-      </div>
-      {% endif %}
+        {% if forloop.first %}
+          <div class="carousel-item active">
+            <img src="{{ img.image.url }}" class="d-block w-100" alt="...">
+          </div>
+        {% else %}
+          <div class="carousel-item">
+            <img src="{{ img.image.url }}" class="d-block w-100" alt="...">
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -26,8 +26,7 @@
     </button>
   </div>
 
-
-<div class="container position-relative">
+  <div class="container position-relative">
     <a href="{% url 'reviews:hotcreate' location.pk %}" class="btn btn-primary position-fixed" style="right:10%; bottom:20%; font-size:larger;">명소 추가하기</a>
 </div>
 
@@ -39,22 +38,166 @@
   </form>
 </div>
     {% for hotplace in hotplaces %}
-    <a class="row my-3 border rounded w-75 m-auto" href="{% url 'reviews:hotdetail' hotplace.pk %}" style="text-decoration:none; color:black;">
+      <a class="row my-3 border rounded w-75 m-auto" href="{% url 'reviews:hotdetail' hotplace.pk %}" style="text-decoration:none; color:black;">
         <div class="col-4 p-0">
-            {% for img in hotplace.image.all %}
+          {% for img in hotplace.image.all %}
             {% if forloop.first %}
-            <img class="w-100 rounded-start" src="{{ img.image.url }}" alt="">
+              <img class="w-100 rounded-start" src="{{ img.image.url }}" alt="">
             {% endif %}
-            {% endfor %}
+          {% endfor %}
         </div>
         <div class="col-8">
-            <h3 class="card-title mt-3">{{ hotplace.hotplace }}</h3>
-            <p >{{ hotplace.theme }}</p>
+          <h3 class="card-title mt-3">{{ hotplace.hotplace }}</h3>
+          <p>{{ hotplace.theme }}</p>
         </div>
-    </a>
+      </a>
     {% endfor %}
-</div>
+  </div>
 
+  <!-- 명소 -->
+  <div class="card mb-3 container card-block w-75">
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body">
+          <h6 class="card-title fw-bold">에펠탑</h6>
+          <p class="card-text">프랑스 파리를 상징하는 세계적인 명소</p>
+          <!-- star -->
+          <link href="/assets/css/star.css" rel="stylesheet"/>
+          <form class="mb-1" name="starform" id="starform" method="post">
+            <fieldset>
+              <span class="text-bold">별점</span>
+              <input type="radio" name="reviewStar" value="5" id="rate1">
+              <label for="rate1">★</label>
+              <input type="radio" name="reviewStar" value="4" id="rate2">
+              <label for="rate2">★</label>
+              <input type="radio" name="reviewStar" value="3" id="rate3">
+              <label for="rate3">★</label>
+              <input type="radio" name="reviewStar" value="2" id="rate4">
+              <label for="rate4">★</label>
+              <input type="radio" name="reviewStar" value="1" id="rate5">
+              <label for="rate5">★</label>
+            </fieldset>
+          </form>
+          <p class="card-text">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </p>
+          <a href="#" class="btn btn-info btn-sm">예약가능</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <img src="https://d2ur7st6jjikze.cloudfront.net/offer_photos/64826/399494_large_1627633848.jpg?1627633848" class="img-fluid rounded-start" alt="...">
+      </div>
+    </div>
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body">
+          <h6 class="card-title fw-bold">빅벤</h6>
+          <p class="card-text">영국의 랜드마크</p>
+          <!-- star -->
+          <link href="/assets/css/star.css" rel="stylesheet"/>
+          <form class="mb-3" name="starform" id="starform" method="post">
+            <fieldset>
+              <span class="text-bold">별점</span>
+              <input type="radio" name="reviewStar" value="5" id="rate1">
+              <label for="rate1">★</label>
+              <input type="radio" name="reviewStar" value="4" id="rate2">
+              <label for="rate2">★</label>
+              <input type="radio" name="reviewStar" value="3" id="rate3">
+              <label for="rate3">★</label>
+              <input type="radio" name="reviewStar" value="2" id="rate4">
+              <label for="rate4">★</label>
+              <input type="radio" name="reviewStar" value="1" id="rate5">
+              <label for="rate5">★</label>
+            </fieldset>
+          </form>
+          <p class="card-text">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </p>
+          <a href="#" class="btn btn-info btn-sm">예약가능</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <img src="https://d2ur7st6jjikze.cloudfront.net/offer_photos/19544/123005_large_1525778880.jpg?1525778880" class="img-fluid rounded-start" alt="...">
+      </div>
+    </div>
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body">
+          <h6 class="card-title fw-bold">세느강</h6>
+          <p class="card-text">음악과 함께 파리 야경시내 워킹투어</p>
+          <!-- star -->
+          <link href="/assets/css/star.css" rel="stylesheet"/>
+          <form class="mb-3" name="starform" id="starform" method="post">
+            <fieldset>
+              <span class="text-bold">별점</span>
+              <input type="radio" name="reviewStar" value="5" id="rate1">
+              <label for="rate1">★</label>
+              <input type="radio" name="reviewStar" value="4" id="rate2">
+              <label for="rate2">★</label>
+              <input type="radio" name="reviewStar" value="3" id="rate3">
+              <label for="rate3">★</label>
+              <input type="radio" name="reviewStar" value="2" id="rate4">
+              <label for="rate4">★</label>
+              <input type="radio" name="reviewStar" value="1" id="rate5">
+              <label for="rate5">★</label>
+            </fieldset>
+          </form>
+          <p class="card-text">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </p>
+          <a href="#" class="btn btn-info btn-sm">예약가능</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <img src="https://d2ur7st6jjikze.cloudfront.net/offer_photos/120569/673632_large_1661697234.jpg?1661697234" class="img-fluid rounded-start" alt="...">
+      </div>
+    </div>
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body">
+          <h6 class="card-title fw-bold">루브르 박물관</h6>
+          <p class="card-text">모나리자, 밀로의 비너스, 민중을 이끄는 자유의 여신</p>
+          <!-- star -->
+          <link href="/assets/css/star.css" rel="stylesheet"/>
+          <form class="mb-3" name="starform" id="starform" method="post">
+            <fieldset>
+              <span class="text-bold">별점</span>
+              <input type="radio" name="reviewStar" value="5" id="rate1">
+              <label for="rate1">★</label>
+              <input type="radio" name="reviewStar" value="4" id="rate2">
+              <label for="rate2">★</label>
+              <input type="radio" name="reviewStar" value="3" id="rate3">
+              <label for="rate3">★</label>
+              <input type="radio" name="reviewStar" value="2" id="rate4">
+              <label for="rate4">★</label>
+              <input type="radio" name="reviewStar" value="1" id="rate5">
+              <label for="rate5">★</label>
+            </fieldset>
+          </form>
 
+          <p class="card-text">
+            <small class="text-muted">관광명소 루브르 박물관</small>
+          </p>
+          <a href="#" class="btn btn-info btn-sm">예약가능</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/22/4f/70/dc/cour-napoleon-et-pyramide.jpg?w=1200&h=-1&s=1" class="img-fluid rounded-start" alt="...">
+
+        <div class="text-center my-4">
+          {% if request.user.is_authenticated %}
+            <a id="like-link" href="{% url 'reviews:like' review.pk %}">
+              {% if request.user in review.like_users.all %}
+                <i id="like-btn" class="bi bi-heart-fill"></i>
+              {% else %}
+                <i id="like-btn" class="bi bi-heart"></i>
+              {% endif %}
+            </a>{{ review.like_users.count }}
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 {% endblock %}
