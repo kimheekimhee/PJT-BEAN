@@ -146,9 +146,9 @@ def hotupdate(request, pk):
 
 def hotlist_theme(request, slug):
     if slug == "all":
-        hotplaces = HotPlace.objects.all()
+        hotplaces = HotPlace.objects.all().annotate(star=Avg('reviews__grade')).annotate(latestdate=Max('reviews__updated_at'))
     else:
-        hotplaces = HotPlace.objects.filter(theme=slug)
+        hotplaces = HotPlace.objects.filter(theme=slug).annotate(star=Avg('reviews__grade')).annotate(latestdate=Max('reviews__updated_at'))
     context = {"hotplaces": hotplaces}
     return render(request, "reviews/hotlist_theme.html", context)
 
