@@ -75,7 +75,7 @@ def hotdetail(request, pk):
         "reviews": reviews,
         "images": images,
     }
-    return render(request, "reviews/detail.html", context)
+    return render(request, "reviews/hotdetail.html", context)
 
 
 @login_required
@@ -146,7 +146,6 @@ def hotlist_theme(request, slug):
     context = {"hotplaces": hotplaces}
     return render(request, "reviews/hotlist_theme.html", context)
 
-
 @login_required
 def reviewupdate(request, pk):
     review = get_object_or_404(Reviews, pk=pk)
@@ -179,14 +178,9 @@ def search(request):
 
 @login_required
 def like(request, pk):
-    review = Reviews.objects.get(pk=pk)
-    # 만약에 로그인한 유저가 이 글을 좋아요를 눌렀다면,
-    # if article.like_users.filter(id=request.user.id).exists():
+    review = HotPlace.objects.get(pk=pk)
     if request.user in review.like_users.all():
-        # 좋아요 삭제하고
         review.like_users.remove(request.user)
     else:
-        # 좋아요 추가하고
         review.like_users.add(request.user)
-    # 상세 페이지로 redirect
-    return redirect("reviews:detail", pk)
+    return redirect("reviews:hotlist", review.location.pk)

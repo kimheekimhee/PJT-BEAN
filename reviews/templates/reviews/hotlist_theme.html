@@ -25,20 +25,50 @@
     </form>
     </div>
 <div class="container position-relative">
-    {% for hotplace in hotplaces %}
-    <a class="row my-3 border rounded w-75 m-auto" href="{% url 'reviews:hotdetail' hotplace.pk %}" style="text-decoration:none; color:black;">
-        <div class="col-4 p-0">
-            {% for img in hotplace.image.all %}
-            {% if forloop.first %}
-            <img class="w-100 rounded-start" src="{{ img.image.url }}" alt="">
-            {% endif %}
-            {% endfor %}
+  {% for hotplace in hotplaces %}
+    <div class="row g-0 mt-3 border rounded">
+      <div class="col-md-8">
+        <div class="card-body m-3">
+          <a href="{% url 'reviews:hotdetail' hotplace.pk %}" style="text-decoration:none; color:black;">
+            <h6 class="card-title fw-bold">{{ hotplace.hotplace }}</h6>
+          </a>
+          <p class="card-text">{{ hotplace.theme }} | {{ hotplace.location.location }} | {{ hotplace.addr }}</p>
+          <!-- star -->
+          <link href="/assets/css/star.css" rel="stylesheet"/>
+          <form class="mb-1" name="starform" id="starform" method="post">
+            <fieldset>
+              <span class="text-bold">별점</span>
+              <input type="radio" name="reviewStar" value="5" id="rate1">
+              <label for="rate1">★</label>
+              <input type="radio" name="reviewStar" value="4" id="rate2">
+              <label for="rate2">★</label>
+              <input type="radio" name="reviewStar" value="3" id="rate3">
+              <label for="rate3">★</label>
+              <input type="radio" name="reviewStar" value="2" id="rate4">
+              <label for="rate4">★</label>
+              <input type="radio" name="reviewStar" value="1" id="rate5">
+              <label for="rate5">★</label>
+            </fieldset>
+          </form>
+          <p class="card-text">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </p>
+          <a href="#" class="btn btn-info btn-sm">예약가능</a>
         </div>
-        <div class="col-8">
-            <h3 class="card-title mt-3">{{ hotplace.hotplace }}</h3>
-            <p >{{ hotplace.theme }}</p>
-        </div>
-    </a>
-    {% endfor %}
+      </div>
+      <div class="col-md-4">
+        {% for img in hotplace.image.all %}
+          {% if forloop.first %}
+          <a href="{% url 'reviews:hotdetail' hotplace.pk %}" style="text-decoration:none; color:black;">
+            <div class="position-relative">
+              <img class="w-100 rounded-end" src="{{ img.image.url }}" alt="">
+              
+            </div>
+          </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
 </div>
 {% endblock %}
