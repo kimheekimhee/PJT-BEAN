@@ -75,7 +75,7 @@ def hotdetail(request, pk):
         "reviews": reviews,
         "images": images,
     }
-    return render(request, "reviews/detail.html", context)
+    return render(request, "reviews/hotdetail.html", context)
 
 
 @login_required
