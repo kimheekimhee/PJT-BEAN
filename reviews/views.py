@@ -169,6 +169,13 @@ def reviewupdate(request, pk):
     context = {"review_form": review_form, "image_form": image_form}
     return render(request, "reviews/reviewcreate.html", context)
 
+def search(request):
+    search = request.GET.get("search")
+    hotplaces = HotPlace.objects.filter(hotplace__icontains=search)
+    context = {
+        "hotplaces" : hotplaces,
+    }
+    return render(request, 'reviews/search.html', context)
 
 @login_required
 def like(request, pk):

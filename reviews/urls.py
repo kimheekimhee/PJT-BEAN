@@ -14,4 +14,5 @@ urlpatterns = [
     path("<str:slug>/hotlist", views.hotlist_theme, name="hotlist_theme"),
     path("<int:pk>/reviewupdate", views.reviewupdate, name="reviewupdate"),
     path("<int:pk>/like", views.like, name="like"),
+    path('search', views.search, name='search'),
 ]
