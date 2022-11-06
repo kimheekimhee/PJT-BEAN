@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% for hotplace in hotplaces %}
+<a class="row my-3 border rounded w-75 m-auto" href="{% url 'reviews:hotdetail' hotplace.pk %}" style="text-decoration:none; color:black;">
+    <div class="col-4 p-0">
+        {% for img in hotplace.image.all %}
+        {% if forloop.first %}
+        <img class="w-100 rounded-start" src="{{ img.image.url }}" alt="">
+        {% endif %}
+        {% endfor %}
+    </div>
+    <div class="col-8">
+        <h3 class="card-title mt-3">{{ hotplace.hotplace }}</h3>
+        <p >{{ hotplace.theme }}</p>
+    </div>
+</a>
+{% endfor %}
+
+{% endblock content %}

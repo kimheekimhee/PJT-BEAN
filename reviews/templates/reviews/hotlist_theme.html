@@ -16,23 +16,14 @@
     </button>
   </div>
 
-
-  <div class="row justify-content-center">
-    <div class="col-2">
-        <select class="form-select">
-            <option selected>Test</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
+  
+  <div class="d-flex justify-content-center mt-3 my-3" style="height: 35px;">
+    <form class="d-flex" role="search" action=" {% url 'reviews:search' %}">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+          name="search">
+      <button class="btn btn-outline-dark" type="submit">Search</button>
+    </form>
     </div>
-    <div class="col-6">
-    <form class="d-flex" action="" method="POST">
-            <input class="form-control mx-3" type="text" placeholder="검색어를 입력하세요">
-            <button class="btn btn-primary mx-3" type="submit">submit</button>
-        </form>
-    </div>
-</div>
 <div class="container position-relative">
     {% for hotplace in hotplaces %}
     <a class="row my-3 border rounded w-75 m-auto" href="{% url 'reviews:hotdetail' hotplace.pk %}" style="text-decoration:none; color:black;">

@@ -165,3 +165,10 @@ def reviewupdate(request, pk):
     }
     return render(request, 'reviews/reviewcreate.html', context)
 
+def search(request):
+    search = request.GET.get("search")
+    hotplaces = HotPlace.objects.filter(hotplace__icontains=search)
+    context = {
+        "hotplaces" : hotplaces,
+    }
+    return render(request, 'reviews/search.html', context)
