@@ -66,7 +66,7 @@ class ImageHotPlace(models.Model):
 
 class Reviews(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    hotplace = models.ForeignKey(HotPlace, on_delete=models.CASCADE)
+    hotplace = models.ForeignKey(HotPlace, on_delete=models.CASCADE, related_name='reviews')
     title = models.CharField(max_length=80)
     content = models.TextField()
     grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])

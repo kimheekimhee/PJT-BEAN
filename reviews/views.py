@@ -181,6 +181,12 @@ def like(request, pk):
     review = HotPlace.objects.get(pk=pk)
     if request.user in review.like_users.all():
         review.like_users.remove(request.user)
+        isLiked = False
     else:
         review.like_users.add(request.user)
-    return redirect("reviews:hotlist", review.location.pk)
+        isLiked= True
+    context = {
+        'isLiked': isLiked,
+        'likeCount': review.like_users.count()
+    }
+    return JsonResponse(context)
