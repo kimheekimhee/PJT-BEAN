@@ -49,8 +49,8 @@
         <div class="justify-content-end" id="navbarSupportedContent">
           <ul class="navbar-nav mb-2 mb-lg-0 d-flex align-items-center">
             <nav class=" container navbar navbar-expand-lg border-bottom">
-              <form class="d-flex" action="{}" method="get">
-                <input class="form-control me-2" type="search" placeholder="Search" name="kw">
+              <form class="d-flex" action="{% url 'reviews:search' %}" method="get">
+                <input class="form-control me-2" type="search" placeholder="Search" name="search">
                 <button class="mdl-button mdl-js-button px-1" type="submit">Search</button>
               </form>
               <div class="container d-flex justify-content-end">
