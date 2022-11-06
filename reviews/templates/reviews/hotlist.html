@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% load static %}
+{% load humanize %}
 {% block css %}<link rel="stylesheet" href="{% static 'reviews/css/style.css' %}">{% endblock css %}
 {% block content %}
   <div id="carouselExampleControls" class="carousel slide w-75 my-3 mx-auto" data-bs-ride="carousel">
@@ -47,6 +48,7 @@
           </a>
           <p class="card-text">{{ hotplace.theme }} | {{ location.location }} | {{ hotplace.addr }}</p>
           <!-- star -->
+          {% if hotplace.latestdate %}
           <label class="rating-label">평점: {{ hotplace.star|floatformat:2 }} 점
             <input
               class="rating"
@@ -58,7 +60,10 @@
               value="{{ hotplace.star }}">
           </label>
           <p class="card-text">
-            <small class="text-muted">Last updated 3 mins ago</small>
+            <small class="text-muted">최근 후기: {{ hotplace.latestdate|naturaltime }}</small>
+            {% else %}
+            <small class="text-muted">최근 후기: 아직 후기가 없어요!</small>
+            {% endif %}
           </p>
           <a href="#" class="btn btn-info btn-sm">예약가능</a>
 
