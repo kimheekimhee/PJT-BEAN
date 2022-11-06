@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'reviews/css/style.css' %}">{% endblock css %}
 {% block content %}
   <div id="carouselExampleControls" class="carousel slide w-75 my-3 mx-auto" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -46,22 +47,16 @@
           </a>
           <p class="card-text">{{ hotplace.theme }} | {{ location.location }} | {{ hotplace.addr }}</p>
           <!-- star -->
-          <link href="/assets/css/star.css" rel="stylesheet"/>
-          <form class="mb-1" name="starform" id="starform" method="post">
-            <fieldset>
-              <span class="text-bold">별점</span>
-              <input type="radio" name="reviewStar" value="5" id="rate1">
-              <label for="rate1">★</label>
-              <input type="radio" name="reviewStar" value="4" id="rate2">
-              <label for="rate2">★</label>
-              <input type="radio" name="reviewStar" value="3" id="rate3">
-              <label for="rate3">★</label>
-              <input type="radio" name="reviewStar" value="2" id="rate4">
-              <label for="rate4">★</label>
-              <input type="radio" name="reviewStar" value="1" id="rate5">
-              <label for="rate5">★</label>
-            </fieldset>
-          </form>
+          <label class="rating-label">평점: {{ hotplace.star|floatformat:2 }} 점
+            <input
+              class="rating"
+              max="5"
+              readonly
+              step="0.01"
+              style="--fill:gold;--value:{{ hotplace.star }}"
+              type="range"
+              value="{{ hotplace.star }}">
+          </label>
           <p class="card-text">
             <small class="text-muted">Last updated 3 mins ago</small>
           </p>
@@ -69,9 +64,9 @@
 
             {% if request.user.is_authenticated %}
                 {% if request.user in hotplace.like_users.all %}
-                  <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart-fill" style="color:red"></i>
+                  <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart-fill" style="color:red; cursor: pointer;"></i>
                 {% else %}
-                  <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart" style="color:red"></i>
+                  <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart" style="color:red; cursor: pointer;"></i>
                 {% endif %}
               <span id="like-count" >{{ hotplace.like_users.count }}</span>
               <i class="bi bi-chat"></i> {{ hotplace.reviews.count }}
@@ -93,35 +88,4 @@
       </div>
     </div>
   {% endfor %}
-
-
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
-    // (1) 좋아요 버튼
-    const likeBtn = document.querySelector('#like-btn')
-    // (2) 좋아요 버튼을 클릭하면, 함수 실행
-    likeBtn.addEventListener('click', function (event) {
-      // 서버로 비동기 요청을 하고 싶음
-      console.log(event.target.dataset)
-      axios({
-        method: 'get',
-        url: `/reviews/${event.target.dataset.hotplaceId}/like`
-      })
-      .then(response => {
-        console.log(response)
-        console.log(response.data)
-        // event.target.classList.toggle('bi-heart')
-        // event.target.classList.toggle('bi-heart-fill')
-        if (response.data.isLiked === true) {
-          event.target.classList.add('bi-heart-fill')
-          event.target.classList.remove('bi-heart')
-        } else {
-          event.target.classList.add('bi-heart')
-          event.target.classList.remove('bi-heart-fill')
-        }
-        const likeCount = document.querySelector('#like-count')
-        likeCount.innerText = response.data.likeCount
-      })
-    })
-  </script>
 {% endblock %}

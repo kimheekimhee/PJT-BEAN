@@ -5,7 +5,7 @@ from django.forms import ClearableFileInput
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Reviews
-        fields = ['title', 'content', 'grade', ]
+        fields = ['title', 'content', ]
 
 class ReviewImageForm(forms.ModelForm):
     class Meta:

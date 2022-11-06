@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, get_object_or_404, render
+from django.db.models import Avg, Count
 from .models import Location, HotPlace, ImageHotPlace, Reviews, ImageReviews, Location
 from .forms import (
     ReviewForm,
@@ -58,7 +59,8 @@ def main(request):
 
 def hotlist(request, pk):
     location = get_object_or_404(Location, pk=pk)
-    hotplaces = HotPlace.objects.filter(location_id=pk)
+    hotplaces = HotPlace.objects.filter(location_id=pk).annotate(star=Avg('reviews__grade'))
+
     context = {
         "location": location,
         "hotplaces": hotplaces,
@@ -69,11 +71,13 @@ def hotlist(request, pk):
 def hotdetail(request, pk):
     hotplace = get_object_or_404(HotPlace, pk=pk)
     reviews = Reviews.objects.filter(hotplace=hotplace)
+    avg = reviews.aggregate(Avg('grade'))
     images = ImageHotPlace.objects.filter(hotplace=hotplace)
     context = {
         "hotplace": hotplace,
         "reviews": reviews,
         "images": images,
+        "avg":avg
     }
     return render(request, "reviews/hotdetail.html", context)
 
@@ -81,12 +85,14 @@ def hotdetail(request, pk):
 @login_required
 def reviewcreate(request, pk):
     hotplace = get_object_or_404(HotPlace, pk=pk)
+    print(request.POST)
     review_form = ReviewForm(request.POST, request.FILES)
     image_form = ReviewImageForm(request.POST, request.FILES)
     images = request.FILES.getlist("image")
     if review_form.is_valid() and image_form.is_valid():
         review = review_form.save(commit=False)
         review.hotplace = hotplace
+        review.grade = request.POST['grade']
         review.user = request.user
         if len(images):
             for image in images:
@@ -154,6 +160,7 @@ def reviewupdate(request, pk):
     images = request.FILES.getlist("image")
     if review_form.is_valid() and image_form.is_valid():
         review = review_form.save(commit=False)
+        review.grade = request.POST['grade']
         if len(images):
             for image in images:
                 image_instance = ImageReviews(reviews=review, image=image)
