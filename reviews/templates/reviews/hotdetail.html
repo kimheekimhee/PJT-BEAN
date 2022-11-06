@@ -100,11 +100,15 @@
                 {% for review in reviews %}
                 <div class="col">
                     <div class="card border-light mb-3">
+                    {% if review.image.all %}
                         {% for img in review.image.all %}
                         {% if forloop.first %}
                         <img src="{{ img.image.url }}" class="card-img-top" alt="...">
                         {% endif %}
                         {% endfor %}
+                    {% else %}
+                        <img src="{% static 'reviews/noimage.jpg' %}" class="card-img-top" alt="...">
+                    {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">
                             {{review.title}}
