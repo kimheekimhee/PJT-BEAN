@@ -86,8 +86,17 @@
                             <h6 class="card-text">
                             {{review.content}}
                             </h6>
-            
-                            {{review.grade}}
+                            {% if review.grade == 1 %}
+                                <p>⭐</p>
+                            {% elif review.grade == 2 %}
+                                <p>⭐⭐</p>
+                            {% elif review.grade == 3 %}
+                                <p>⭐⭐⭐</p>
+                            {% elif review.grade == 4 %}
+                                <p>⭐⭐⭐⭐</p>
+                            {% elif review.grade == 5 %}
+                                <p>⭐⭐⭐⭐⭐</p>
+                            {% endif %}
                             {% if request.user == review.user %}
                                 <div class="d-flex justify-content-end">
                                     <a href="{% url 'reviews:reviewupdate' review.pk %}" class="btn btn-warning">수정</a>
