@@ -137,7 +137,7 @@ if DEBUG:
         BASE_DIR / 'static',
     ]
 else:
-    STATIC_ROOT = BASE_DIR / "staticfiles"
+    STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_ROOT = BASE_DIR / "images"
 
