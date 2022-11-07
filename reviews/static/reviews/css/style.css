@@ -85,6 +85,16 @@ a {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient:vertical;
-  transition: 0.5s;
   cursor: pointer;
   }
+
+.summarycard {
+  height: 192px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient:vertical;
+  transition: 0.5s;
+  cursor: pointer;
+}
