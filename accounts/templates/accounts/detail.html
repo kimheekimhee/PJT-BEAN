@@ -70,40 +70,27 @@
             </div>
           </div>
         </div>
-        <div class="col">
-          <div class="card">
 
-            <div class="card-body">
-              <h5 class="card-title">Fill Out Your Profile</h5>
-              <p class="card-text">Add photos and info to your profile</p>
-            </div>
-          </div>
-        </div>
         <div class="col">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">방명록</h5>
-              <ul class="imoji_list">
-                <li class="nav-item">
-                  <a class="nav-link" align="justify" href="">
-                    <i class="bi bi-camera"></i>
-                  </a>
-                </li>
-                <div class="d-flex justify-content-start">
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'reviews:index' %}">
-                      <i class="bi bi-pencil-square"></i>
-                      <a class="pencil" href="">리뷰 작성</a>
-                    </div>
-                </ul>
-              </a>
-            </li>
-          </div>
-        </div>
-      </div>
-    </div>
-
+              <div class="align-bottom">
+                <p align="left">Title :
+                  {{ person.title }}</p>
+                <p align="left">Content :
+                  {{ person.content }}</p>
+              </div>
+            </div>
+        </ul>
+      </a>
+    </li>
   </div>
+</div>
+</div>
+</div>
+
+</div>
 </div>
 
 {% endblock %}
