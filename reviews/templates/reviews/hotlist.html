@@ -29,7 +29,7 @@
   </div>
 
   <div class="container position-relative">
-    <a href="{% url 'reviews:hotcreate' location.pk %}" class="btn btn-primary position-fixed" style="right:10%; bottom:20%; font-size:larger; z-index:1; font-size:32px; width:32px; height:32px;">+</a>
+    <a href="{% url 'reviews:hotcreate' location.pk %}" class="btn btn-primary position-fixed d-flex justify-content-center" style="right:10%; bottom:20%; font-size:larger; z-index:1; font-size:32px; width:64px; height:64px; border-radius:100%; opacity:0.8;"><span style="width:32px; height:32px;">+</span></a>
 </div>
 
 <div class="d-flex justify-content-center mt-3 my-3" style="height: 35px;">
@@ -92,4 +92,17 @@
       </div>
     </div>
   {% endfor %}
+  <div name="pagination" class="text-center mx-auto my-3">
+    {% if hotplaces.has_previous %}
+    <a href="?page=1">맨 앞으로</a>
+    <a href="?page={{hotplaces.previous_page_number}}">이전으로</a>
+    {% endif %}
+    <span>{{hotplaces.number}}</span>
+    <span>/</span>
+    <span>{{hotplaces.paginator.num_pages}}</span>
+    {% if hotplaces.has_next %}
+        <a href="?page={{hotplaces.next_page_number}}">다음으로</a>
+        <a href="?page={{hotplaces.paginator.num_pages}}">맨 뒤로</a>
+    {% endif %}
+</div>
 {% endblock %}
