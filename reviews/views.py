@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.http import HttpResponseForbidden
 from django.views.decorators.http import require_POST
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -60,10 +61,12 @@ def main(request):
 def hotlist(request, pk):
     location = get_object_or_404(Location, pk=pk)
     hotplaces = HotPlace.objects.filter(location_id=pk).annotate(star=Avg('reviews__grade')).annotate(latestdate=Max('reviews__updated_at'))
-
+    paginator = Paginator(hotplaces, 6)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
     context = {
         "location": location,
-        "hotplaces": hotplaces,
+        "hotplaces": posts,
     }
     return render(request, "reviews/hotlist.html", context)
 
@@ -73,9 +76,12 @@ def hotdetail(request, pk):
     reviews = Reviews.objects.filter(hotplace=hotplace).order_by('-pk')
     avg = reviews.aggregate(Avg('grade'))
     images = ImageHotPlace.objects.filter(hotplace=hotplace)
+    paginator = Paginator(reviews, 6)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
     context = {
         "hotplace": hotplace,
-        "reviews": reviews,
+        "reviews": posts,
         "images": images,
         "avg":avg
     }

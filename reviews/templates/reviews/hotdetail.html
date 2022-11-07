@@ -70,10 +70,10 @@
 <div class="d-flex justify-content-center">
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item mx-3" role="presentation">
-            <button class="nav-link active" id="pills-domestic-tab" data-bs-toggle="pill" data-bs-target="#pills-domestic" type="button" role="tab" aria-controls="pills-domestic" aria-selected="true">위치</button>
+            <button class="nav-link active" id="pills-domestic-tab" data-bs-toggle="pill" data-bs-target="#pills-domestic" type="button" role="tab" aria-controls="pills-domestic" aria-selected="false">위치</button>
         </li>
         <li class="nav-item mx-3" role="presentation">
-            <button class="nav-link" id="pills-overseas-tab" data-bs-toggle="pill" data-bs-target="#pills-overseas" type="button" role="tab" aria-controls="pills-overseas" aria-selected="false">후기</button>
+            <button class="nav-link" id="pills-overseas-tab" data-bs-toggle="pill" data-bs-target="#pills-overseas" type="button" role="tab" aria-controls="pills-overseas" aria-selected="true">후기</button>
         </li>
         <li class="nav-item mx-3">
             <a href="{% url 'reviews:hotlist' hotplace.location.pk %}">
@@ -88,15 +88,11 @@
 
 
 <div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="pills-domestic" role="tabpanel" aria-labelledby="pills-domestic-tab" tabindex="0">
-        <div class="d-flex justify-content-center container">
-        <div class="m-3" id="staticMap" style="width:100%;height:600px;"></div>
-        </div>
-    </div>
-    <div class="tab-pane fade" id="pills-overseas" role="tabpanel" aria-labelledby="pills-overseas-tab" tabindex="0">
+
+    <div class="tab-pane fade " id="pills-overseas" role="tabpanel" aria-labelledby="pills-overseas-tab" tabindex="0">
         <div class="d-flex justify-content-center">
-        <div class="container row row-cols-1">
-            <div class="row row-cols-3 py-5 px-3">
+            <div class="container row row-cols-1">
+                <div class="row row-cols-3 py-5 px-3">
                 {% for review in reviews %}
                 <div class="col">
                     <div class="card border-light mb-3">
@@ -139,7 +135,26 @@
                 </div>
                 {% endfor %}
             </div>
+            <div name="pagination" class="text-center mx-auto my-3">
+                {% if reviews.has_previous %}
+                <a href="?page=1">맨 앞으로</a>
+                <a href="?page={{reviews.previous_page_number}}">이전으로</a>
+                {% endif %}
+                <span>{{reviews.number}}</span>
+                <span>/</span>
+                <span>{{reviews.paginator.num_pages}}</span>
+                {% if reviews.has_next %}
+                    <a href="?page={{reviews.next_page_number}}">다음으로</a>
+                    <a href="?page={{reviews.paginator.num_pages}}">맨 뒤로</a>
+                {% endif %}
+            </div>
         </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade show active" id="pills-domestic" role="tabpanel" aria-labelledby="pills-domestic-tab" tabindex="0">
+        <div class="d-flex justify-content-center container">
+            <div class="m-3" id="staticMap" style="width:100%;height:600px;"></div>
         </div>
     </div>
 </div>
@@ -162,6 +177,7 @@ var staticMapContainer  = document.getElementById('staticMap'),
 // 이미지 지도를 생성합니다
 var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
   // (1) 좋아요 버튼
