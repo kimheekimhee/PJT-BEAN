@@ -114,25 +114,27 @@
                             {{review.title}} <small><a href="{% url 'accounts:detail' review.user.pk %}">{{review.user.username}}</a></small>
                             </h5>
                             <p class="text-muted">{{ review.created_at|naturaltime }}</p>
-                            <h6 class="card-text">
-                            {{review.content}}
-                            </h6>
+
+                            <p id="reviews" class="summary my-3">{{review.content}}</p>
+
+                            <div class="d-flex justify-content-between">
                             {% if review.grade == 1 %}
-                                <p>⭐</p>
+                                <span>⭐</span>
                             {% elif review.grade == 2 %}
-                                <p>⭐⭐</p>
+                                <span>⭐⭐</span>
                             {% elif review.grade == 3 %}
-                                <p>⭐⭐⭐</p>
+                                <span>⭐⭐⭐</span>
                             {% elif review.grade == 4 %}
-                                <p>⭐⭐⭐⭐</p>
+                                <span>⭐⭐⭐⭐</span>
                             {% elif review.grade == 5 %}
-                                <p>⭐⭐⭐⭐⭐</p>
+                                <span>⭐⭐⭐⭐⭐</span>
                             {% endif %}
                             {% if request.user == review.user %}
-                                <div class="d-flex justify-content-end">
+                                <span>
                                     <a href="{% url 'reviews:reviewupdate' review.pk %}" class="btn btn-warning mx-1">수정</a>
                                     <a href="{% url 'reviews:reviewdelete' review.pk %}" class="btn btn-danger mx-1">삭제</a>
-                                </div>
+                                </span>
+                            </div>
                             {% endif %}
                         </div>
                     </div>
@@ -190,5 +192,14 @@ var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
       likeCount.innerText = response.data.likeCount
     })
   })
+
+var divElement = document.getElementById('reviews');
+
+divElement.addEventListener('click', (e) => {
+  var targetElement = e.target;
+  targetElement.classList.toggle('summary');
+  console.log('yes')
+});
+
 </script>
 {% endblock content %}

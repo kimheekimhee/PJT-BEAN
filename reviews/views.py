@@ -70,7 +70,7 @@ def hotlist(request, pk):
 
 def hotdetail(request, pk):
     hotplace = get_object_or_404(HotPlace, pk=pk)
-    reviews = Reviews.objects.filter(hotplace=hotplace)
+    reviews = Reviews.objects.filter(hotplace=hotplace).order_by('-pk')
     avg = reviews.aggregate(Avg('grade'))
     images = ImageHotPlace.objects.filter(hotplace=hotplace)
     context = {
@@ -177,7 +177,7 @@ def reviewupdate(request, pk):
 
 def search(request):
     search = request.GET.get("search")
-    hotplaces = HotPlace.objects.filter(hotplace__icontains=search)
+    hotplaces = HotPlace.objects.filter(hotplace__icontains=search).annotate(star=Avg('reviews__grade')).annotate(latestdate=Max('reviews__updated_at'))
     context = {
         "hotplaces" : hotplaces,
     }
