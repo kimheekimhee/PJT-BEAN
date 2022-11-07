@@ -111,7 +111,7 @@
                     {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">
-                            {{review.title}}
+                            {{review.title}} <small><a href="{% url 'accounts:detail' review.user.pk %}">{{review.user.username}}</a></small>
                             </h5>
                             <p class="text-muted">{{ review.created_at|naturaltime }}</p>
                             <h6 class="card-text">
