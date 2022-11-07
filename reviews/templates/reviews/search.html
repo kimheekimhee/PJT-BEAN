@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load humanize %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'reviews/css/style.css' %}">{% endblock css %}
+{% block content %}
 {% for hotplace in hotplaces %}
 <div class="row g-0 mt-3 border rounded">
   <div class="col-md-8">
