@@ -84,7 +84,7 @@
 
 
 <div class="container position-relative">
-    <a href="{% url 'reviews:reviewcreate' hotplace.pk %}" class="btn btn-primary position-fixed" style="right:10%; bottom:20%; font-size:larger;">+ review</a>
+    <a href="{% url 'reviews:reviewcreate' hotplace.pk %}" class="btn btn-primary position-fixed" style="right:10%; bottom:20%; font-size:larger; z-index:1;">+ review</a>
 
 
 <div class="tab-content" id="pills-tabContent">
@@ -114,9 +114,7 @@
                             {{review.title}} <small><a href="{% url 'accounts:detail' review.user.pk %}">{{review.user.username}}</a></small>
                             </h5>
                             <p class="text-muted">{{ review.created_at|naturaltime }}</p>
-
                             <p id="reviews" class="summary my-3">{{review.content}}</p>
-
                             <div class="d-flex justify-content-between">
                             {% if review.grade == 1 %}
                                 <span>⭐</span>
@@ -134,8 +132,8 @@
                                     <a href="{% url 'reviews:reviewupdate' review.pk %}" class="btn btn-warning mx-1">수정</a>
                                     <a href="{% url 'reviews:reviewdelete' review.pk %}" class="btn btn-danger mx-1">삭제</a>
                                 </span>
-                            </div>
                             {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -193,14 +191,13 @@ var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
     })
   })
 
-var divElement = document.getElementById('reviews');
-
-divElement.addEventListener('click', (e) => {
-  var targetElement = e.target;
-  targetElement.classList.toggle('summary');
-  console.log('yes')
-});
-
+const boxes = document.querySelectorAll('.summary')
+console.log(boxes)
+boxes.forEach( (summary) =>{
+    summary.addEventListener('click', (summary) => {
+        summary.target.classList.toggle('summary');
+    })
+})
 var divElement = document.getElementById('cardcontent');
 
 divElement.addEventListener('click', (e) => {
