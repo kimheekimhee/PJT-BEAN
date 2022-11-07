@@ -139,6 +139,8 @@ if DEBUG:
     MEDIA_URL = "/media/"
     MEDIA_ROOT = BASE_DIR / "media"
     
+else:
+    STATIC_ROOT = BASE_DIR / "static"
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
@@ -149,10 +151,6 @@ if DEBUG:
         AWS_STORAGE_BUCKET_NAME,
         AWS_REGION,
     )
-else:
-    STATIC_ROOT = BASE_DIR / "static"
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-
 
 # MEDIA_ROOT = BASE_DIR / "images"
 
