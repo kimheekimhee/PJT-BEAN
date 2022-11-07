@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% load static %}
+{% load humanize %}
+{% block css %}<link rel="stylesheet" href="{% static 'reviews/css/style.css' %}">{% endblock css %}
 {% block content %}
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -40,6 +42,27 @@
             <p class="card-text">{{ hotplace.content }}</p>
             <a href="https://map.naver.com/v5/search/{{ hotplace.addr }}" class="card-link" target='_blank'>길찾기: {{ hotplace.addr }}</a>
             <a href="{% url 'reviews:hotupdate' hotplace.pk %}" class="card-link" >정보 수정하기</a>
+            <br>
+            <p> 좋아요
+            {% if request.user.is_authenticated %}
+            {% if request.user in hotplace.like_users.all %}
+              <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart-fill" style="color:red; cursor: pointer;"></i>
+            {% else %}
+              <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart" style="color:red; cursor: pointer;"></i>
+            {% endif %}
+          <span id="like-count" > {{ hotplace.like_users.count }}</span>
+          댓글 <i class="bi bi-chat"></i> {{ hotplace.reviews.count }}</p>
+        {% endif %}
+        <label class="rating-label">평점: {{ avg.grade__avg|floatformat:2 }} 점
+            <input
+              class="rating"
+              max="5"
+              readonly
+              step="0.01"
+              style="--fill:gold;--value:{{ avg.grade__avg }}"
+              type="range"
+              value="{{ avg.grade__avg }}">
+          </label>
         </div>
     </div>
 </div>
@@ -51,6 +74,10 @@
         </li>
         <li class="nav-item mx-3" role="presentation">
             <button class="nav-link" id="pills-overseas-tab" data-bs-toggle="pill" data-bs-target="#pills-overseas" type="button" role="tab" aria-controls="pills-overseas" aria-selected="false">후기</button>
+        </li>
+        <li class="nav-item mx-3">
+            <a href="{% url 'reviews:hotlist' hotplace.location.pk %}">
+            <button class="nav-link" >목록</button></a>
         </li>
     </ul>
 </div>
@@ -73,16 +100,20 @@
                 {% for review in reviews %}
                 <div class="col">
                     <div class="card border-light mb-3">
+                    {% if review.image.all %}
                         {% for img in review.image.all %}
                         {% if forloop.first %}
                         <img src="{{ img.image.url }}" class="card-img-top" alt="...">
                         {% endif %}
                         {% endfor %}
+                    {% else %}
+                        <img src="{% static 'reviews/noimage.jpg' %}" class="card-img-top" alt="...">
+                    {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">
                             {{review.title}}
                             </h5>
-            
+                            <p class="text-muted">{{ review.created_at|naturaltime }}</p>
                             <h6 class="card-text">
                             {{review.content}}
                             </h6>
@@ -99,8 +130,8 @@
                             {% endif %}
                             {% if request.user == review.user %}
                                 <div class="d-flex justify-content-end">
-                                    <a href="{% url 'reviews:reviewupdate' review.pk %}" class="btn btn-warning">수정</a>
-                                    <a href="{% url 'reviews:reviewdelete' review.pk %}" class="btn btn-danger">삭제</a>
+                                    <a href="{% url 'reviews:reviewupdate' review.pk %}" class="btn btn-warning mx-1">수정</a>
+                                    <a href="{% url 'reviews:reviewdelete' review.pk %}" class="btn btn-danger mx-1">삭제</a>
                                 </div>
                             {% endif %}
                         </div>
@@ -130,5 +161,34 @@ var staticMapContainer  = document.getElementById('staticMap'),
 
 // 이미지 지도를 생성합니다
 var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  // (1) 좋아요 버튼
+  const likeBtn = document.querySelector('#like-btn')
+  // (2) 좋아요 버튼을 클릭하면, 함수 실행
+  likeBtn.addEventListener('click', function (event) {
+    // 서버로 비동기 요청을 하고 싶음
+    console.log(event.target)
+    axios({
+      method: 'get',
+      url: `/reviews/${event.target.dataset.hotplaceId}/like`
+    })
+    .then(response => {
+      console.log(response)
+      console.log(response.data)
+      // event.target.classList.toggle('bi-heart')
+      // event.target.classList.toggle('bi-heart-fill')
+      if (response.data.isLiked === true) {
+        event.target.classList.add('bi-heart-fill')
+        event.target.classList.remove('bi-heart')
+      } else {
+        event.target.classList.add('bi-heart')
+        event.target.classList.remove('bi-heart-fill')
+      }
+      const likeCount = document.querySelector('#like-count')
+      likeCount.innerText = response.data.likeCount
+    })
+  })
 </script>
 {% endblock content %}

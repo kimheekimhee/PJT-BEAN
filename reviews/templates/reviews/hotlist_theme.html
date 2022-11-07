@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-
+{% load humanize %}
 {% block content %}
 <div id="carouselExampleControls" class="carousel slide w-75 my-3 mx-auto" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -34,26 +34,35 @@
           </a>
           <p class="card-text">{{ hotplace.theme }} | {{ hotplace.location.location }} | {{ hotplace.addr }}</p>
           <!-- star -->
-          <link href="/assets/css/star.css" rel="stylesheet"/>
-          <form class="mb-1" name="starform" id="starform" method="post">
-            <fieldset>
-              <span class="text-bold">별점</span>
-              <input type="radio" name="reviewStar" value="5" id="rate1">
-              <label for="rate1">★</label>
-              <input type="radio" name="reviewStar" value="4" id="rate2">
-              <label for="rate2">★</label>
-              <input type="radio" name="reviewStar" value="3" id="rate3">
-              <label for="rate3">★</label>
-              <input type="radio" name="reviewStar" value="2" id="rate4">
-              <label for="rate4">★</label>
-              <input type="radio" name="reviewStar" value="1" id="rate5">
-              <label for="rate5">★</label>
-            </fieldset>
-          </form>
+          {% if hotplace.latestdate %}
+          <label class="rating-label">평점: {{ hotplace.star|floatformat:2 }} 점
+            <input
+              class="rating"
+              max="5"
+              readonly
+              step="0.01"
+              style="--fill:gold;--value:{{ hotplace.star }}"
+              type="range"
+              value="{{ hotplace.star }}">
+          </label>
           <p class="card-text">
-            <small class="text-muted">Last updated 3 mins ago</small>
+            <small class="text-muted">최근 후기: {{ hotplace.latestdate|naturaltime }}</small>
+            {% else %}
+            <small class="text-muted">최근 후기: 아직 후기가 없어요!</small>
+            {% endif %}
           </p>
           <a href="#" class="btn btn-info btn-sm">예약가능</a>
+
+            {% if request.user.is_authenticated %}
+                {% if request.user in hotplace.like_users.all %}
+                  <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart-fill" style="color:red; cursor: pointer;"></i>
+                {% else %}
+                  <i id="like-btn" data-hotplace-id="{{ hotplace.pk }}" class="bi bi-heart" style="color:red; cursor: pointer;"></i>
+                {% endif %}
+              <span id="like-count" >{{ hotplace.like_users.count }}</span>
+              <i class="bi bi-chat"></i> {{ hotplace.reviews.count }}
+            {% endif %}
+
         </div>
       </div>
       <div class="col-md-4">
