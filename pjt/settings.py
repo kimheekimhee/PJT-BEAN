@@ -159,4 +159,3 @@ MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 
 LOGOUT_REDIRECT_URL = "accounts/index/"
-
