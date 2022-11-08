@@ -89,7 +89,13 @@
 
 <div class="tab-content" id="pills-tabContent">
 
-    <div class="tab-pane fade " id="pills-overseas" role="tabpanel" aria-labelledby="pills-overseas-tab" tabindex="0">
+    <div class="tab-pane fade show active" id="pills-domestic" role="tabpanel" aria-labelledby="pills-domestic-tab" tabindex="0">
+        <div class="d-flex justify-content-center container">
+            <div class="m-3" id="map" style="width:100%;height:600px;"></div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="pills-overseas" role="tabpanel" aria-labelledby="pills-overseas-tab" tabindex="0">
         <div class="d-flex justify-content-center">
             <div class="container row row-cols-1">
                 <div class="row row-cols-3 py-5 px-3">
@@ -151,31 +157,28 @@
         </div>
         </div>
     </div>
-
-    <div class="tab-pane fade show active" id="pills-domestic" role="tabpanel" aria-labelledby="pills-domestic-tab" tabindex="0">
-        <div class="d-flex justify-content-center container">
-            <div class="m-3" id="staticMap" style="width:100%;height:600px;"></div>
-        </div>
-    </div>
 </div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a296fe5c49ee5c07b18af90b459b38bb"></script>
 <script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = { 
+        center: new kakao.maps.LatLng(`{{ hotplace.y }}`, `{{ hotplace.x }}`), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+// 마커가 표시될 위치입니다 
 var markerPosition  = new kakao.maps.LatLng(`{{ hotplace.y }}`, `{{ hotplace.x }}`); 
 
-var marker = {
+// 마커를 생성합니다
+var marker = new kakao.maps.Marker({
     position: markerPosition
-};
+});
 
-var staticMapContainer  = document.getElementById('staticMap'),
-    staticMapOption = { 
-        center: new kakao.maps.LatLng(`{{ hotplace.y }}`, `{{ hotplace.x }}`),
-        level: 3,
-        marker: marker
-    };    
-
-// 이미지 지도를 생성합니다
-var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
+// 마커가 지도 위에 표시되도록 설정합니다
+marker.setMap(map);
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
