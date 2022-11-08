@@ -52,6 +52,12 @@
 </div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a296fe5c49ee5c07b18af90b459b38bb&libraries=services"></script>
 <script>
+var enteraddress = document.querySelector('[name="addr"]')
+enteraddress.addEventListener('keydown', function(event) {
+  if (event.keyCode === 13) {
+    document.getElementById('button-addon2').click();
+  };
+}, true);
 
 var mapContainer = document.getElementById('map'),
     mapOption = { 
